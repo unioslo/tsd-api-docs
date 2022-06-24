@@ -97,7 +97,7 @@ Authorization: Bearer $token
 
 To delete data:
 ```txt
-DELETE /v1/p11/survey/1234/submissions?where=data=eq.1
+DELETE /v1/p11/apps/my-app/tables/my-table?where=data=eq.1
 Authorization: Bearer $token
 ```
 
