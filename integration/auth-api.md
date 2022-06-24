@@ -121,11 +121,11 @@ POST /v1/p11/auth/refresh/token
 Using just the API key, you can get a short-lived access token that will allow your application to import data to TSD, for the project which you have authorization.
 
 ```txt
-POST /v1/p11/auth/basic/token
+POST /v1/p11/auth/basic/token?type=<token_type>
 Authorization: Bearer $apikey
 ```
 
-Because basic authentication has a low level of assurance, we require that your app runs on a host with a fixed IP address/range. Apps using basic authentication cannot export any data.
+Because basic authentication has a low level of assurance, we require that your app runs on a host with a fixed IP address/range.
 
 
 ### Instance based authentication
