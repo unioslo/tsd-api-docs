@@ -153,7 +153,7 @@ The server will attempt to repair any data inconsistencies which may have arised
 
 Assuming data is consistent, the client then proceed as follows:
 ```txt
-PATCH /v1/p11/files/stream/filename?chunk=<num>?id=<UUID>&group=<group-name>
+PATCH /v1/p11/files/stream/filename?chunk=<num>&id=<UUID>&group=<group-name>
 Authorization: Bearer $import_token
 
 {
