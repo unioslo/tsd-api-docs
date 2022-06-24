@@ -175,7 +175,14 @@ To get additional information about authenticated users, client can make request
 * `mods`
 * `name`
 
-If clients prefer to receive results from the `/userinfo` endpoint as signed JWT instead of JSON, then they can request this from TSD.
+If clients prefer to receive results from the `/userinfo` endpoint as signed JWT instead of JSON, then they can request this from TSD. An example request is:
+
+```txt
+GET /tsd-oidc-provider/userinfo
+Authorization: Bearer $access_token
+```
+
+Clients should use the access token that is returned as a part ID token.
 
 ### /end_session
 
