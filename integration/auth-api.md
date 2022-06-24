@@ -142,6 +142,8 @@ Authorization: Bearer $apikey
 }
 ```
 
+The secret_challenge is optional, it's usage being mandated by the particulars of the instance (or import link).
+
 ### TSD Two-Factor authentication
 
 To get a token:
