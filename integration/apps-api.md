@@ -206,7 +206,7 @@ range=1.2
 To upload a file, hypothetically named `interview.txt`:
 ```txt
 PUT /v1/p11/apps/my-app/files/interview.txt
-Authorization: Bearer $import
+Authorization: Bearer $token
 
 All the interview data...
 ```
@@ -216,7 +216,7 @@ There is a 5GB limit on size, when using this method, and note this is _not_ `mu
 Or to a subdirectory specific to a user, e.g.:
 ```txt
 PUT /v1/p11/apps/my-app/files/user1/interview.txt
-Authorization: Bearer $import
+Authorization: Bearer $token
 
 All the interview data...
 ```
@@ -224,19 +224,19 @@ All the interview data...
 To list files:
 ```txt
 GET /v1/p11/apps/my-app/files
-Authorization: Bearer $survey_export
+Authorization: Bearer $token
 ```
 
 To get a file:
 ```txt
 GET /v1/p11/apps/my-app/files/interview.txt
-Authorization: Bearer $survey_export
+Authorization: Bearer $token
 ```
 
 To delete a file:
 ```txt
 DELETE /v1/p11/apps/my-app/files/interview.txt
-Authorization: Bearer $survey_admin
+Authorization: Bearer $token
 ```
 
 #### Resumable uploads
@@ -244,7 +244,7 @@ Authorization: Bearer $survey_admin
 The client, having chunked the file, starts by initiating a PATCH, uploading the first chunk:
 ```txt
 PATCH /v1/p11/apps/my-app/files/filename?chunk=1
-Authorization: Bearer $import
+Authorization: Bearer $token
 
 {
     filename: str,
@@ -256,7 +256,7 @@ Authorization: Bearer $import
 Using the UUID returned by the server in the response, the client can continue sending succesive chunks, in sequence:
 ```txt
 PATCH /v1/p11/apps/my-app/files/filename?chunk=<num>&id=<UUID>
-Authorization: Bearer $import
+Authorization: Bearer $token
 
 {
     filename: str,
@@ -268,13 +268,13 @@ Authorization: Bearer $import
 To finish the upload the client must explicitly indicate that the upload is finished by sending an empty request as such:
 ```txt
 PATCH /v1/p11/apps/my-app/files/filename?chunk=end&id=<UUID>
-Authorization: Bearer $import
+Authorization: Bearer $token
 ```
 
 To get an overview of uploads which can be resumed:
 ```txt
 GET /v1/p11/apps/{your-app}/files/resumables
-Authorization: Bearer $import
+Authorization: Bearer $token
 ```
 
 In all cases, the following information about a resumable is provided:
@@ -298,5 +298,5 @@ The value of the `key` will show the directory to which the file belongs, which 
 To cancel a partial upload:
 ```txt
 DELETE /v1/p11/apps/{your-app}/files/filename?id=<UUID>
-Authorization: Bearer import
+Authorization: Bearer $token
 ```
