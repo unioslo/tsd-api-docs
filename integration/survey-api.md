@@ -166,7 +166,7 @@ range=1.2
 
 #### Aggregation
 
-Client can perform the following aggregation function on data:
+Clients can perform the following aggregation functions on data:
 * `count` - the number of entries in a selection
 * `avg` - geomertic average
 * `min` - minimum numeric value
@@ -180,6 +180,15 @@ For example, to get the number of table entries, along with the timestamp of the
 ```txt
 ?select=count(*),max_ts(metaData.timestamp)
 ```
+
+Aggregate queries can be broadcast over all tables as such:
+
+```txt
+GET /v1/p11/survey/*/submissions?select=count(*),max_ts(metaData.timestamp)
+Authorization: Bearer $survey_export
+```
+
+This will yield the number of entries and latest timestamp for all tables in the project.
 
 ### JSON data
 
