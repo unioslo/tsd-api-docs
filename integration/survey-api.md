@@ -73,7 +73,7 @@ Before showing examples working with JSON data, it is necessary to understand th
 ```json
 [
     {
-        "metaData": {"submission_id": 1},
+        "metaData": {"submission_id": 1, "timestamp": "2020-10-13T10:15:26.388573"},
         "data": [
             {"code": 0, "variable": "ans1", "text": "no", "degree": 5},
             {"code": 1, "variable": "ans2", "text": "bla"},
@@ -81,14 +81,14 @@ Before showing examples working with JSON data, it is necessary to understand th
         ]
     },
     {
-        "metaData": {"submission_id": 2},
+        "metaData": {"submission_id": 2, "timestamp": "2020-10-13T11:33:10.360211"},
         "data": [
             {"code": 1, "variable": "ans1", "text": "no", "degree": 10},
             {"code": 2, "variable": "ans2", "text": "bla"}
         ]
     },
     {
-        "metaData": {"submission_id": 3},
+        "metaData": {"submission_id": 3, "timestamp": "2020-10-13T20:40:26.208001"},
         "data": [
            {"code": 0, "variable": "ans1", "text": "no", "degree": 1}
        ]
@@ -162,6 +162,23 @@ order=metaData.submission_id.desc
 To control which rows are being returned from the relevant set:
 ```txt
 range=1.2
+```
+
+#### Aggregation
+
+Client can perform the following aggregation function on data:
+* `count` - the number of entries in a selection
+* `avg` - geomertic average
+* `min` - minimum numeric value
+* `max` - maximum numeric value
+* `sum` - sum of numeric values
+* `min_ts` - minimum timestamp or date
+* `max_ts` - maximum timestamp or date
+
+For example, to get the number of table entries, along with the timestamp of the most recent entry:
+
+```txt
+?select=count(*),max_ts(metaData.timestamp)
 ```
 
 ### JSON data
