@@ -167,6 +167,7 @@ range=1.2
 #### Aggregation
 
 Clients can perform the following aggregation functions on data:
+
 * `count` - the number of entries in a selection
 * `avg` - geomertic average
 * `min` - minimum numeric value
