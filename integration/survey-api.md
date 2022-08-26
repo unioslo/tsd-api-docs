@@ -267,6 +267,13 @@ GET /v1/p11/survey/1234/attachments/interview.txt
 Authorization: Bearer $survey_export
 ```
 
+To get metadata about a file:
+
+```txt
+HEAD /v1/p11/survey/1234/attachments/interview.txt
+Authorization: Bearer $survey_export
+```
+
 To delete a file:
 
 ```txt
