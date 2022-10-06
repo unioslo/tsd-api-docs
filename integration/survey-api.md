@@ -16,6 +16,7 @@ The following endpoints are available:
 /v1/p11/survey/{formid}/metadata
 /v1/p11/survey/{formid}/audit
 /v1/p11/survey/{formid}/attachments
+/v1/p11/survey/{formid}/access
 /v1/p11/survey/crypto/key
 /v1/p11/survey/resumables
 ```
@@ -57,14 +58,72 @@ Authorization: Bearer $survey_import
 ```
 
 If the form is active:
+
 ```json
 {"formid": "121113", "status": "active"}
 ```
 
 If the form is inactive:
+
 ```json
 {"formid": "121113", "status": "inactive"}
 ```
+
+### Access controls
+
+Access controls can be set and retrieved for each form. These decide what groups are required to access data for this form in the Survey API, as well as datasets generated on project storage.
+
+To retrieve:
+
+```text
+GET /v1/p11/survey/1234/access
+Authorization: Bearer $survey_import
+```
+
+In the following response, the data under `.internal` will show which groups are allowed to access the survey API data for this form, from the TSD-internal endpoint.
+The rules show that only members of `p11-admin-group` are allowed to retrieve, update or delete data from the API.
+
+The group listed under `.datasets.read` is the group used for generating datasets on the project
+storage.
+
+```json
+{
+  "internal": {
+    "read": ["p11-admin-group"],
+    "edit": ["p11-admin-group"],
+    "delete": ["p11-admin-group"]
+  },
+  "external": {},
+  "datasets": {
+    "read": "p11-admin-group"
+  }
+}
+```
+
+Setting access control rules are done in a similar fashion:
+
+```text
+PUT /v1/p11/survey/1234/access
+Authorization: Bearer $survey_import
+```
+
+```json
+{
+  "internal": {
+    "read": ["p11-member-group"],
+    "edit": ["p11-admin-group", "p11-torjus-group"],
+    "delete": ["p11-admin-group", "p11-torjus-group"]
+  },
+  "external": {},
+  "datasets": {
+    "read": "p11-member-group"
+  }
+}
+```
+
+Those rules will allow all project members (`p11-member-group`) to retrieve data, but only members of `p11-admin-group` or `p11-torjus-group` have access to modify or delete data.
+
+Datasets will be generated on project storage for all members.
 
 ### Queries
 
@@ -101,18 +160,25 @@ Before showing examples working with JSON data, it is necessary to understand th
 To filter key, one can use the `select` clause.
 
 Only `metaData`:
+
 ```txt
 ?select=metaData
 ```
+
 Only `data`:
+
 ```txt
 ?select=data
 ```
+
 One specific key, inside all array elements in `data`:
+
 ```txt
 ?select=data[*|variable]
 ```
+
 Two keys, inside one array element in `data`:
+
 ```txt
 ?select=data[1|variable,degree]
 ```
@@ -122,14 +188,19 @@ Two keys, inside one array element in `data`:
 To filter rows, one can use the `where` clause.
 
 A row with a specific `submission_id`, nested inside the `metaData` key:
+
 ```txt
 ?where=metaData.submission_id=eq.1
 ```
+
 With a pattern match, broadcasting over all elements in the `data` key's array:
+
 ```txt
 ?where=data[0|variable]=like.ans*
 ```
+
 Combining with `and` and `or`:
+
 ```txt
 ?where=(data[0|variable]=like.ans*,or:data[0|degree]=gt.4),and:data[1|code]=not.is.null
 ```
@@ -153,6 +224,7 @@ The full operator list for `where` filtering is:
 #### Ordering
 
 To control the order of results:
+
 ```txt
 order=metaData.submission_id.desc
 ```
@@ -160,6 +232,7 @@ order=metaData.submission_id.desc
 #### Paginating
 
 To control which rows are being returned from the relevant set:
+
 ```txt
 range=1.2
 ```
@@ -201,6 +274,7 @@ Authorization: Bearer $survey_import
 
 {...}
 ```
+
 Schemas are agreed upon between TSD and Nettskjema.
 
 To update data, use the query functionality to isolate the entry, and send the new row in its entirety:
@@ -211,6 +285,7 @@ Authorization: Bearer $survey_import
 
 {data: [...]}
 ```
+
 Such operations are recorded in the audit log.
 
 To get data:
@@ -348,7 +423,6 @@ To cancel a partial upload:
 DELETE /v1/p11/survey/resumables/filename?id=<UUID>
 Authorization: Bearer survey_import
 ```
-
 
 ### Encryption
 
