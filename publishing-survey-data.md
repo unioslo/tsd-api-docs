@@ -140,10 +140,10 @@ PUT /v1/{pnum}/publication/{num}/import/{person_id}/{report-file-name}
 Authorization: Bearer $access_token
 ```
 * `{pnum}`, project number, e.g.: `p11`
-* `{num`, projet number without the `p`, e.g. `11`
+* `{num`, project number without the `p`, e.g. `11`
 * `{report-file-name}`, e.g. `report-2022-10-17.html`
 
 
-### 10. Fetching reports
+## 10. Fetching reports
 
 The doctors can now login to the external [publication portal](https://publication.tsd.usit.no/), using ID-Porten/BankID, to browse reports for the different respondents.

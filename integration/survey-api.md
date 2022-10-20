@@ -302,6 +302,13 @@ DELETE /v1/p11/survey/1234/submissions?where=metaData.submission_id=eq.1
 Authorization: Bearer $survey_admin
 ```
 
+To delete _an endpoint_:
+```txt
+DELETE /v1/p11/survey/1234/submissions
+Authorization: Bearer $survey_admin
+```
+
+
 ### JSON metadata
 
 Schemas are agreed upon between TSD and Nettskjema. The `/metadata` endpoint functions in the exact same way as the `/submissions` endpoint. Using it, clients can associate arbitrary metadata with a form.
