@@ -1,7 +1,12 @@
 
 # Publishing survey data
 
-Use case: collect data with Nettskjema, make reports about the respondents available to a group of people.
+Use case:
+* collect data with Nettskjema
+* create HTML reports using respondent data
+* make the reports available to a group of people
+  * without making them members of the project
+  * using electronic identities which they already have
 
 ## Overview
 
