@@ -141,7 +141,7 @@ Content-Type: application/json
 Once your application has processed the Nettskjema data fetched from the survey API, an HTML report can be uploaded to a respondent specific URL as such, e.g.:
 
 ```txt
-PUT /v1/{pnum}/publication/{num}/import/{person_id}/{report-file-name}
+PUT /v1/{pnum}/publication/{num}/import/files/{person_id}/{report-file-name}
 Authorization: Bearer $access_token
 ```
 * `{pnum}`, project number, e.g.: `p11`
