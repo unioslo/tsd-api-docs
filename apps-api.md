@@ -13,9 +13,9 @@ In this example there are three different roles, each with different levels of d
 
 The following token types are defined to cover these roles:
 
-* `app-processor`, requested by doctors are they are data processors
-* `app-subject`, requested by patients, them being the data subjects
-* `app-generic`, requested by researchers, since they do not have access to personal data
+* `app-processor`, requested by doctors
+* `app-subject`, requested by patients
+* `app-generic`, requested by researchers
 
 ## Identity management requirements
 
@@ -26,11 +26,11 @@ The following groups should be created:
 In the use case above, the following would apply:
 
 * doctors are members of the `p[0-9]+-{app}-processor-group`
-  * a TSD project member requests group creation
+  * a TSD project member requests group creation (a person group)
   * doctors apply for TSD project membership
   * TSD project admins approve them as associated members
 * patients are members of the `p[0-9]+-{app}-subject-group`
-  * a TSD project member requests group creation
+  * a TSD project member requests group creation (a person group)
   * patient person objects are created
   * patients are added to groups by processors
 * researchers do not need to be a member of any group
@@ -80,13 +80,13 @@ Content-Type: application/json
 
 {
     "id": "person-id",
-    "data": {}
+    "data": {...}
 }
 ```
 
-A subject views gets own data, or a processor gets data about a specific subject:
+A subject gets their own data, or a processor gets data about a specific subject:
 ```
-GET /v1/{pnum}/apps/{app}/persons/data?id={person_id}
+GET /v1/{pnum}/apps/{app}/persons/data?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 ```
 
@@ -107,7 +107,6 @@ And to read from it:
 PUT /v1/{pnum}/apps/{app}/tables/{table-name}
 Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
 ```
-
 
 ## Other API calls
 
