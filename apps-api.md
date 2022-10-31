@@ -96,6 +96,19 @@ GET /v1/{pnum}/apps/{app}/persons/data
 Authorization: Bearer $app-processor-token
 ```
 
+Any token can be used to add data to the generic endpoints:
+```
+PUT /v1/{pnum}/apps/{app}/tables/{table-name}
+Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
+```
+
+And to read from it:
+```
+PUT /v1/{pnum}/apps/{app}/tables/{table-name}
+Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
+```
+
+
 ## Other API calls
 
 List the members of groups:
