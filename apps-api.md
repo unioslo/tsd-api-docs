@@ -74,7 +74,7 @@ Content-Type: application/json
 
 A subject adds data about themselves, or a processor does so on their behalf:
 ```
-PUT /v1/{pnum}/apps/{app}/persons/data?id={person_id}
+PUT /v1/{pnum}/apps/{app}/persons/data?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 Content-Type: application/json
 
