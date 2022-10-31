@@ -74,7 +74,7 @@ Content-Type: application/json
 
 A subject adds data about themselves, or a processor does so on their behalf:
 ```
-PUT /v1/{pnum}/apps/{app}/persons/data?where.id=eq.{person_id}
+PUT /v1/{pnum}/apps/{app}/tables/persons/data?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 Content-Type: application/json
 
@@ -86,13 +86,13 @@ Content-Type: application/json
 
 A subject gets their own data, or a processor gets data about a specific subject:
 ```
-GET /v1/{pnum}/apps/{app}/persons/data?where.id=eq.{person_id}
+GET /v1/{pnum}/apps/{app}/tables/persons/data?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 ```
 
 A processor gets data about all subjects:
 ```
-GET /v1/{pnum}/apps/{app}/persons/data
+GET /v1/{pnum}/apps/{app}/tables/persons/data
 Authorization: Bearer $app-processor-token
 ```
 
