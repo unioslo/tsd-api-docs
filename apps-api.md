@@ -113,5 +113,5 @@ Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
 List the members of groups:
 ```
 GET /v1/{pnum}/apps/{app}/iam/groups/{pnum}-{app}-{subject|processor}-group/members
-Authorization: Bearer $app-processor-token|
+Authorization: Bearer $app-processor-token
 ```
