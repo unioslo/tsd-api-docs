@@ -51,6 +51,7 @@ Content-Type: application/json
         "type": "id_number",
         "issuer": {"country": "NO"},
     }
+    "email": "my@mail.no"
 }
 ```
 
