@@ -72,9 +72,9 @@ Content-Type: application/json
 }
 ```
 
-A subject adds data about themselves, or a processor does so on their behalf:
+A subject adds data about themselves to a hypothetical survey named `study1`, or a processor does so on their behalf:
 ```
-PUT /v1/{pnum}/apps/{app}/tables/persons/data?where.id=eq.{person_id}
+PUT /v1/{pnum}/apps/{app}/tables/persons/study1?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 Content-Type: application/json
 
@@ -86,25 +86,25 @@ Content-Type: application/json
 
 A subject gets their own data, or a processor gets data about a specific subject:
 ```
-GET /v1/{pnum}/apps/{app}/tables/persons/data?where.id=eq.{person_id}
+GET /v1/{pnum}/apps/{app}/tables/persons/study1?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 ```
 
 A processor gets data about all subjects:
 ```
-GET /v1/{pnum}/apps/{app}/tables/persons/data
+GET /v1/{pnum}/apps/{app}/tables/persons/study1
 Authorization: Bearer $app-processor-token
 ```
 
-Any token can be used to add data to the generic endpoints:
+Any token can be used to add data to the generic endpoints, for example summary statistics about `study1`:
 ```
-PUT /v1/{pnum}/apps/{app}/tables/{table-name}
+PUT /v1/{pnum}/apps/{app}/tables/study1-summary
 Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
 ```
 
 And to read from it:
 ```
-PUT /v1/{pnum}/apps/{app}/tables/{table-name}
+PUT /v1/{pnum}/apps/{app}/tables/study1-summary
 Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
 ```
 
