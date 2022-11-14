@@ -145,7 +145,7 @@ Researchers should be able to see all survey related data down to individual lev
 
 - Required
 
-  - GET all patients WHERE surveyID = X
+  - GET all patients WHERE survey_name = X
     returns
     ```json
     [
