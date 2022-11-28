@@ -15,13 +15,15 @@ The following token types are defined to cover these roles:
 
 * `app-processor`, requested by doctors
 * `app-subject`, requested by patients
-* `app-generic`, requested by researchers
+* `app-researcher`, requested by researchers
+* `app-generic`, requested by anyone
 
 ## Identity management requirements
 
 The following groups should be created:
 * `p[0-9]+-{app}-processor-group`
 * `p[0-9]+-{app}-subject-group`
+* `p[0-9]+-{app}-researcher-group`
 
 In the use case above, the following would apply:
 
@@ -32,12 +34,28 @@ In the use case above, the following would apply:
 * patients are members of the `p[0-9]+-{app}-subject-group`
   * a TSD project member requests group creation (a person group)
   * patient person objects are created
-  * patients are added to groups by processors
-* researchers do not need to be a member of any group
+  * patients are _added to groups by processors in the app_
+* researchers are members of the `p[0-9]+-{app}-researcher-group`
+  * a TSD project member requests group creation (a person group)
+  * researchers apply for TSD project membership
+  * TSD project admins approve them as associated members
 
 ## Using the API
 
-Create a person object for a new patient:
+Create a study definition:
+```txt
+PUT /v1/{pnum}/apps/{app}/tables/generic/study_definitions
+Authorization: Bearer $app-basic
+Content-Type: application/json
+
+{
+    "study_name": "study1".
+    "study_id": "12345",
+    "questions": [],
+}
+```
+
+Create a person object for a new patient, optionally assigning a diagnosis and a survey:
 ```txt
 POST /v1/{pnum}/apps/{app}/iam/persons
 Authorization: Bearer $app-processor-token
@@ -51,7 +69,13 @@ Content-Type: application/json
         "type": "id_number",
         "issuer": {"country": "NO"},
     }
-    "email": "my@mail.no"
+    "email": "my@mail.no",
+    "person_metadata": {
+        "study_id": "12345",
+        "doctors": ["some-id"],
+        "diagnoses": ["some-diagnosis"],
+        "surveys": ["survey1"],
+    }
 }
 ```
 
@@ -60,6 +84,30 @@ If a person with the same `identifiers` has already been created, then the above
 {
     "person_id": "some-uuid-value"
 }
+```
+
+Assign a diagnonis (this will over-write any existing array value):
+```txt
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/diagnoses
+Authorization: Bearer $app-processor-token
+Content-Type: application/json
+
+{
+    "diagnoses": ["some-diagnosis"],
+}
+
+```
+
+Assign a survey:
+```txt
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/surveys
+Authorization: Bearer $app-processor-token
+Content-Type: application/json
+
+{
+    "surveys": ["survey1", "survey2"],
+}
+
 ```
 
 Add them to the subject group:
@@ -73,41 +121,37 @@ Content-Type: application/json
 }
 ```
 
+List all patients treated by a doctor:
+```
+GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.doctors<@[doctor-person-id]
+Authorization: Bearer $app-processor-token
+```
+
 A subject adds data about themselves to a hypothetical survey named `study1`, or a processor does so on their behalf:
 ```
-PUT /v1/{pnum}/apps/{app}/tables/persons/study1?where.id=eq.{person_id}
+PUT /v1/{pnum}/apps/{app}/tables/persons/studies?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 Content-Type: application/json
 
 {
-    "id": "person-id",
+    "id": "subject-person-id",
     "data": {...}
+    "studyId": "some-id"
 }
 ```
 
-A subject gets their own data, or a processor gets data about a specific subject:
+A subject gets their own data _for all studies_, or a processor gets data about a specific subject:
 ```
-GET /v1/{pnum}/apps/{app}/tables/persons/study1?where.id=eq.{person_id}
+GET /v1/{pnum}/apps/{app}/tables/persons/studies?where.id=eq.{person_id}
 Authorization: Bearer $app-processor-token|$app-subject-token
 ```
 
 A processor gets data about all subjects:
 ```
-GET /v1/{pnum}/apps/{app}/tables/persons/study1
+GET /v1/{pnum}/apps/{app}/tables/persons/studies
 Authorization: Bearer $app-processor-token
 ```
 
-Any token can be used to add data to the generic endpoints, for example summary statistics about `study1`:
-```
-PUT /v1/{pnum}/apps/{app}/tables/study1-summary
-Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
-```
-
-And to read from it:
-```
-PUT /v1/{pnum}/apps/{app}/tables/study1-summary
-Authorization: Bearer $app-processor-token|$app-subject-token|$app-generic-token
-```
 
 ## Other API calls
 
