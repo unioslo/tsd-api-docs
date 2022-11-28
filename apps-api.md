@@ -16,7 +16,7 @@ The following token types are defined to cover these roles:
 * `app-processor`, requested by doctors
 * `app-subject`, requested by patients
 * `app-researcher`, requested by researchers
-* `app-generic`, requested by anyone
+* `app-basic`, write-only token used by the app
 
 ## Identity management requirements
 
