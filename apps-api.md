@@ -75,10 +75,12 @@ Content-Type: application/json
     }
     "email": "my@mail.no",
     "person_metadata": {
-        "study_id": "12345",
-        "doctors": ["some-id"],
-        "diagnoses": ["some-diagnosis"],
-        "surveys": ["survey1"],
+        "app-name": {
+            "study_id": "12345",
+            "doctors": ["some-id"],
+            "diagnoses": ["some-diagnosis"],
+            "surveys": ["survey1"],
+        }
     }
 }
 ```
@@ -107,33 +109,31 @@ For array values, `PATCH` requests will over-write existing sub-keys of the `per
 
 Assign a diagnosis:
 ```txt
-PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/diagnoses
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/{app-name}.diagnoses
 Authorization: Bearer $app-processor-token
 Content-Type: application/json
 
 {
     "diagnoses": ["some-diagnosis"],
 }
-
 ```
 
 Assign a survey:
 ```txt
-PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/surveys
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/{app-name}.surveys
 Authorization: Bearer $app-processor-token
 Content-Type: application/json
 
 {
     "surveys": ["survey1", "survey2"],
 }
-
 ```
 
 ### Getting data
 
 List all patients treated by a doctor:
 ```
-GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.doctors<@[doctor-person-id]
+GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.{app-name}.doctors<@[doctor-person-id]
 Authorization: Bearer $app-processor-token
 ```
 
