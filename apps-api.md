@@ -42,6 +42,8 @@ In the use case above, the following would apply:
 
 ## Using the API
 
+### App setup
+
 Create a study definition:
 ```txt
 PUT /v1/{pnum}/apps/{app}/tables/generic/study_definitions
@@ -54,6 +56,8 @@ Content-Type: application/json
     "questions": [],
 }
 ```
+
+### Patient creation
 
 Create a person object for a new patient, optionally assigning a diagnosis and a survey:
 ```txt
@@ -86,7 +90,22 @@ If a person with the same `identifiers` has already been created, then the above
 }
 ```
 
-Assign a diagnonis (this will over-write any existing array value):
+_Manadatory_: add them to the subject group:
+```
+PUT /v1/{pnum}/apps/{app}/iam/groups/{pnum}-{app}-{subject}-group/members
+Authorization: Bearer $app-processor-token
+Content-Type: application/json
+
+{
+    "member": "person_id"
+}
+```
+
+### Editing patient person data
+
+For array values, `PATCH` requests will over-write existing sub-keys of the `person_metadata`, so if the intent is to append an item to an array, the client must first fetch the current value, update the array in memory to the desired value, and then perform the `PATCH` API call.
+
+Assign a diagnosis:
 ```txt
 PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/diagnoses
 Authorization: Bearer $app-processor-token
@@ -110,16 +129,7 @@ Content-Type: application/json
 
 ```
 
-Add them to the subject group:
-```
-PUT /v1/{pnum}/apps/{app}/iam/groups/{pnum}-{app}-{subject}-group/members
-Authorization: Bearer $app-processor-token
-Content-Type: application/json
-
-{
-    "member": "person_id"
-}
-```
+### Getting data
 
 List all patients treated by a doctor:
 ```
@@ -151,7 +161,6 @@ A processor gets data about all subjects:
 GET /v1/{pnum}/apps/{app}/tables/persons/studies
 Authorization: Bearer $app-processor-token
 ```
-
 
 ## Other API calls
 
