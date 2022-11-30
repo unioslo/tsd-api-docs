@@ -61,7 +61,7 @@ Content-Type: application/json
 
 Create a person object for a new patient, optionally assigning a diagnosis and a survey:
 ```txt
-POST /v1/{pnum}/apps/{app}/iam/persons
+PUT /v1/{pnum}/apps/{app}/iam/persons
 Authorization: Bearer $app-processor-token
 Content-Type: application/json
 
@@ -85,7 +85,9 @@ Content-Type: application/json
 }
 ```
 
-If a person with the same `identifiers` has already been created, then the above request will return the person ID, without modifying the rest of the attributes. If a new person is created, the same response will be returned:
+It is mandatory to include the name of your app in the metadata, and to nest your app-specific metadata under that name.
+
+If a person with the same `identifiers` has already been created, then the above request will return the person ID, and update any existing attributes with the new values. If a new person is created, the same response will be returned:
 ```json
 {
     "person_id": "some-uuid-value"
@@ -133,7 +135,7 @@ Content-Type: application/json
 
 List all patients treated by a doctor:
 ```
-GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.{app-name}.doctors<@[doctor-person-id]
+GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.{app-name}.doctors=<@['doctor-person-id']
 Authorization: Bearer $app-processor-token
 ```
 
