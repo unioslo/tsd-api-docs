@@ -76,7 +76,7 @@ Content-Type: application/json
     "email": "my@mail.no",
     "person_metadata": {
         "apps": {
-            app-name": {
+            "app-name": {
                 "study_id": "12345",
                 "doctors": ["some-id"],
                 "diagnoses": ["some-diagnosis"],
