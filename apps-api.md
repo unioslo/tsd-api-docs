@@ -75,17 +75,19 @@ Content-Type: application/json
     }
     "email": "my@mail.no",
     "person_metadata": {
-        "app-name": {
-            "study_id": "12345",
-            "doctors": ["some-id"],
-            "diagnoses": ["some-diagnosis"],
-            "surveys": ["survey1"],
+        "apps": {
+            app-name": {
+                "study_id": "12345",
+                "doctors": ["some-id"],
+                "diagnoses": ["some-diagnosis"],
+                "surveys": ["survey1"],
+            }
         }
     }
 }
 ```
 
-It is mandatory to include the name of your app in the metadata, and to nest your app-specific metadata under that name.
+It is mandatory to include the name of your app in the `apps` key inside `person_metadata`, and to nest your app-specific metadata under that name.
 
 If a person with the same `identifiers` has already been created, then the above request will return the person ID, and update any existing attributes with the new values. If a new person is created, the same response will be returned:
 ```json
@@ -94,7 +96,7 @@ If a person with the same `identifiers` has already been created, then the above
 }
 ```
 
-_Manadatory_: add them to the subject group:
+_Manadatory_: a processor must add them to the subject group:
 ```
 PUT /v1/{pnum}/apps/{app}/iam/groups/{pnum}-{app}-{subject}-group/members
 Authorization: Bearer $app-processor-token
@@ -111,7 +113,7 @@ For array values, `PATCH` requests will over-write existing sub-keys of the `per
 
 Assign a diagnosis:
 ```txt
-PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/{app-name}.diagnoses
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata.apps.{app-name}.diagnoses
 Authorization: Bearer $app-processor-token
 Content-Type: application/json
 
@@ -122,7 +124,7 @@ Content-Type: application/json
 
 Assign a survey:
 ```txt
-PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata/{app-name}.surveys
+PATCH /v1/{pnum}/apps/{app}/iam/persons/{person_id}/person_metadata.apps.{app-name}.surveys
 Authorization: Bearer $app-processor-token
 Content-Type: application/json
 
