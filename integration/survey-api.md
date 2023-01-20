@@ -125,6 +125,72 @@ Those rules will allow all project members (`p11-member-group`) to retrieve data
 
 Datasets will be generated on project storage for all members.
 
+You can also retrieve all access rules for a given project:
+
+```text
+GET /v1/p11/survey/*/access
+Authorization: Bearer $survey_import
+```
+
+The result will be a JSON object with the key being the form ids:
+
+```json
+{
+    "116": {
+        "internal": {
+            "read": [
+                "p11-member-group"
+            ],
+            "edit": [
+                "p11-member-group"
+            ],
+            "delete": [
+                "p11-member-group"
+            ]
+        },
+        "external": {},
+        "datasets": {
+            "read": "p11-member-group"
+        }
+    },
+    "123": {
+        "internal": {
+            "read": [
+                "p11-torjus-gorup",
+                "p11-mbeno-group"
+            ],
+            "edit": [
+                "p11-admin-group"
+            ],
+            "delete": [
+                "p11-admin-group"
+            ]
+        },
+        "external": {},
+        "datasets": {
+            "read": "p11-torjus-group"
+        }
+    },
+    "112": {
+        "internal": {
+            "read": [
+                "p11-member-group"
+            ],
+            "edit": [
+                "p11-member-group"
+            ],
+            "delete": [
+                "p11-member-group"
+            ]
+        },
+        "external": {},
+        "datasets": {
+            "read": "p11-member-group"
+        }
+    }
+}
+```
+
 ### Queries
 
 Before showing examples working with JSON data, it is necessary to understand the URI query language offered by the API. Suppose you sent the following data to a form (each entry of the array being sent in a different request):
@@ -303,11 +369,11 @@ Authorization: Bearer $survey_admin
 ```
 
 To delete _an endpoint_:
+
 ```txt
 DELETE /v1/p11/survey/1234/submissions
 Authorization: Bearer $survey_admin
 ```
-
 
 ### JSON metadata
 
