@@ -139,7 +139,7 @@ Content-Type: application/json
 
 List all patients treated by a doctor:
 ```
-GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.{app-name}.doctors=<@['doctor-person-id']
+GET /v1/{pnum}/apps/{app}/iam/persons?person_metadata.apps.{app-name}.doctors=<@['doctor-person-id']
 Authorization: Bearer $app-processor-token
 ```
 
