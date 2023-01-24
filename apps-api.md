@@ -68,11 +68,13 @@ Content-Type: application/json
 {
     "full_name": "First Last",
     "birth_date": "2000-01-01",
-    "identifiers": {
-        "id": "00010112345",
-        "type": "id_number",
-        "issuer": {"country": "NO"},
-    }
+    "identifiers": [
+        {
+            "id": "00010112345",
+            "type": "id_number",
+            "issuer": {"country": "NO"},
+        },
+    ],
     "email": "my@mail.no",
     "person_metadata": {
         "apps": {
