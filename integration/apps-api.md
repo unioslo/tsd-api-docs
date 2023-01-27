@@ -53,13 +53,17 @@ In this scenario an app would allow users that login with an OIDC provider to th
 
 Users login with an OIDC provider and the app uses token exchange to obtain an `app-user` token. The so-called personal endpoints, where data is explicitly organised per person, is the most strict access control regime offered by the API. It ensures that users can write, read, update and delete _only their own data_. To use this correctly, apps must add the `pid` claim, obtained from the access token, in the URLs where the `{person_identifier}` was given. On the inside of TSD, researchers will have access to all data uploaded by the app. Administrators can edit, and delete as necessary.
 
+### Scope
+
+Data are organised via apps and tables. *Apps* define organisational contexts, affected by access control (see above). *Tables* denote structural units, i. e. collections of data records. In the following examples, we use `my-app` as the app, and `my-table` as the table.
+
 ### JSON data
 
-The only restriction on JSON data is that each entry must be unique - that is, each JSON entry sent to the API should contain a unique key-value pair such as an ID, or a timestamp.
+Apps API manages data records, i. e. table rows, as JSON documents, each of which consists of a dictionary of key-value pairs. The only restriction is that each data record must be unique - that is, each JSON entry sent to the API should contain a unique key-value pair such as an ID, or a timestamp.
 
 #### Writing
 
-To send JSON data, clients can simply do:
+To insert a data record into the table send the JSON-serialised data record as payload:
 ```txt
 PUT /v1/p11/apps/my-app/tables/my-table
 Authorization: Bearer $token
@@ -69,17 +73,17 @@ Authorization: Bearer $token
 
 #### Reading
 
-To get data:
+To retrieve data from a table:
 ```txt
 GET /v1/p11/apps/my-app/tables/my-table
 Authorization: Bearer $token
 ```
 
-One can refine the results which are returned by adding queries, which are explained in the next section.
+This returns an array consisting of all data records, in no particular order. One can refine the results which are returned by adding queries, which are explained in the next section.
 
 #### Updating
 
-To update data, use the query functionality (explained in the next section) to isolate the entry, and send the new data:
+To update existing data records, use the query functionality (explained in section *Queries* below) to specify the record(s) affected by the operation, and provide the new data as payload:
 ```txt
 PATCH /v1/p11/apps/my-app/tables/my-table?set=data&where=metaData.id=eq.1
 Authorization: Bearer $token
@@ -93,9 +97,11 @@ GET /v1/p11/apps/my-app/tables/my-table/audit
 Authorization: Bearer $token
 ```
 
+This returns the full audit log as an array, in no particular order. Like queries (see *Queries* below), the result set of the audit log can be sorted and and its contents limited.
+
 #### Deleting
 
-To delete data:
+To delete data records that match a conditional clause:
 ```txt
 DELETE /v1/p11/apps/my-app/tables/my-table?where=data=eq.1
 Authorization: Bearer $token
@@ -103,7 +109,7 @@ Authorization: Bearer $token
 
 ### Queries
 
-Suppose you sent the following data to a form (each entry of the array being sent in a different request):
+Suppose you use the following format for data records, each record being inserted via a request of its own (see *Writing* above):
 
 ```json
 [
@@ -133,7 +139,7 @@ Suppose you sent the following data to a form (each entry of the array being sen
 
 #### Key filtering
 
-To filter key, one can use the `select` clause.
+To filter by a specific key of the record, one can use the `select` clause as a query parameter.
 
 Only `metaData`:
 ```txt
@@ -187,17 +193,18 @@ The full operator list for `where` filtering is:
 
 #### Ordering
 
-To control the order of results:
+The order in which records are returned can be forced to be either ascending (`asc`) or descending (`desc`) with respect to the value of a specific key:
 ```txt
 order=metaData.id.desc
 ```
 
 #### Paginating
 
-To control which rows are being returned from the relevant set:
+To limit the subset of records returned by a query to a specific range, one needs to specify an offset (0-based integer value) and the number of records returned:
 ```txt
 range=1.2
 ```
+returns up to two records of the dataset, starting with the second record.
 
 ### Files
 
