@@ -56,7 +56,7 @@ Each app server has its own set of access control grants, which are enforced by 
 
 All app servers are integrated with the internal RabbitMQ message broker, and publish messages to API specific exchanges. Each message contains information about which request was performed: the hostname, HTTP method, and URI. Messages do not contain service data, but rather metadata which allows downstream consumers to act on what happened.
 
-__insert figure__
+_insert figure_
 
 Each exchange has one or more message queues which receive all or a subset of messages which are published to the exchanege, filtering messages according to the application's needs. Message consumers listen to the queues, and perform work based on incoming messages.
 
@@ -67,5 +67,7 @@ The integration of the APIs with the message brokers allows for event-driven ser
 ## Flexible service development
 
 The combination of central authorization and event-driven integrations enable flexible and secure service development. Customers can, for example, create their own clients (web services) which communicate with the TRE's APIs, and subscribe to messages on tenant-spececific queues inside and/or outside of the TRE.
+
+_insert figure_
 
 This enables use cases such as: on data upload, discover new data, submit a job to the high performance computing cluster, publish results to an access controlled API, and notify an external applicaiton that the new report has been published and is ready for use.
