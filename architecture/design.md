@@ -42,8 +42,15 @@ All resource requests are authorized using information contained in the HTTP hea
   * time period limitations on the grant
   * limitations on the amount of times the request can be performed
 
-If all these checks pass, then the request is authorized, and the proxy allows the request to be routed to the app server.
+If all these checks pass, then the request is authorized, and the proxy allows the request to be routed to the app server. The rationale for centralizing authorization is the following:
+
+* having a single policy enforcement point encourages transparency via standardised access control rules
+* security and performance critical code is written and optimised once, and bugs are fixed in one place
+* it allows the TRE to enforce mandatory access control for its security policies
 
 ## Resource requests
 
+Each app server has its own set of access control grants, which are enforced by the central authorization server. So when the app server receives a request these access control grants have been evaluated. If it is not feasible to express all necessary authorization logic in the central authorization server, then the app server can implement additional controls. Other than that they are normal HTTP requests.
+
 ## Event-driven integrations
+
