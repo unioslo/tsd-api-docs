@@ -25,7 +25,24 @@ With the TSD API access token in hand, the web service is now ready to perform a
 
 ## Authorization
 
+All HTTP traffic is routed through the external and internal proxies. The proxies act as gateways for traffic since each request is first forwarded to the authorization server.
 
+_insert figure_
+
+All resource requests are authorized using information contained in the HTTP headers, according to the same algorithm that check the following:
+
+* verify the signature of the access token against a tenant specific secret
+* decode the access token claims
+* find all access control grants for matching the current HTTP request: API host name, HTTP method, and URI
+* for each access control grant, check if:
+  * the access token is authorized
+  * the client is authorized
+  * the user is authorized - determined by group membership
+* optionally check
+  * time period limitations on the grant
+  * limitations on the amount of times the request can be performed
+
+If all these checks pass, then the request is authorized, and the proxy allows the request to be routed to the app server.
 
 ## Resource requests
 
