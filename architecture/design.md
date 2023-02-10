@@ -17,10 +17,15 @@ All service data are exposed via HTTP API endpoints implemented by app servers. 
 
 _insert figure_
 
-To authenticate users, TSD uses the OpenID Connect protocol, either with its own OIDC provider, or with third-party OIDC providers. Third-party OIDC providers integrated on a case-by-case basis.
+To authenticate users, web services that integrate with the TSD API uses the OpenID Connect protocol, either with its own OIDC provider, or with third-party OIDC providers. Third-party OIDC providers integrated on a case-by-case basis. The client redirects the user to the OIDC provider's authentication dialogue, where credentials are given. If successful the OIDC provider issues a code to the client, which it then uses to obtain an ID token. The ID token is a signed assertion about the user, their attributes, and the authentication event.
 
+At this point, the web service must use its own API client credentials to authenticate itself to the API, and also use the ID token, which represents the user, to obtain an API access token. This process is known as a token exchange. The result of the token exchange is a new access token which is another signed assertion about the rights of both the API client and the user.
+
+With the TSD API access token in hand, the web service is now ready to perform a resource request, and the TSD API is able to authorize such a request.
 
 ## Authorization
+
+
 
 ## Resource requests
 
