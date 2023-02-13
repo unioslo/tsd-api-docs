@@ -7,7 +7,7 @@ The TSD API design outlines a secure multi-tenant HTTP API with event-driven int
 
 TREs are typically deployed with their own networks which are protected by firewalls, and TSD is no exception in this regard. The figure below shows the overall API design.
 
-_insert figure_
+![API design - basic data flow](./overall.png)
 
 Users interact with clients (web services) which in turn connect to application servers (which implement business logic) via proxies. There are two proxies: 1) an external proxy, which has a connection to the network outside of the TRE's perimiter, and the internal network, and 2) an internal proxy, which has access to the management network in the TRE and tenant subnets, where researchers' virtual machines are deployed. The proxies expose services to clients (and users) without exposing them to untrusted networks.
 
@@ -67,7 +67,3 @@ The integration of the APIs with the message brokers allows for event-driven ser
 ## Flexible service development
 
 The combination of central authorization and event-driven integrations enable flexible and secure service development. Customers can, for example, create their own clients (web services) which communicate with the TRE's APIs, and subscribe to messages on tenant-spececific queues inside and/or outside of the TRE.
-
-_insert figure_
-
-This enables use cases such as: on data upload, discover new data, submit a job to the high performance computing cluster, publish results to an access controlled API, and notify an external applicaiton that the new report has been published and is ready for use.
