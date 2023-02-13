@@ -15,7 +15,7 @@ Users interact with clients (web services) which in turn connect to application 
 
 All service data are exposed via HTTP API endpoints implemented by app servers. All API endpoints are protected by access control, which means that all API calls must be authorized - i.e. the API has to determine whether the user is allowed to perform a given action with the given data. Authenticating the user, and the client, is therefore a prerequisite for request authorization.
 
-_insert figure_
+![Authentication](./authn.png)
 
 To authenticate users, web services that integrate with the TSD API uses the OpenID Connect protocol, either with its own OIDC provider, or with third-party OIDC providers. Third-party OIDC providers integrated on a case-by-case basis. The client redirects the user to the OIDC provider's authentication dialogue, where credentials are given. If successful the OIDC provider issues a code to the client, which it then uses to obtain an ID token. The ID token is a signed assertion about the user, their attributes, and the authentication event.
 
@@ -27,7 +27,7 @@ With the TSD API access token in hand, the web service is now ready to perform a
 
 All HTTP traffic is routed through the external and internal proxies. The proxies act as gateways for traffic since each request is first forwarded to the authorization server.
 
-_insert figure_
+![Authorization](./authz.png)
 
 All resource requests are authorized using information contained in the HTTP headers, according to the same algorithm that check the following:
 
@@ -56,7 +56,7 @@ Each app server has its own set of access control grants, which are enforced by 
 
 All app servers are integrated with the internal RabbitMQ message broker, and publish messages to API specific exchanges. Each message contains information about which request was performed: the hostname, HTTP method, and URI. Messages do not contain service data, but rather metadata which allows downstream consumers to act on what happened.
 
-_insert figure_
+![Message brokers](./mq.png)
 
 Each exchange has one or more message queues which receive all or a subset of messages which are published to the exchanege, filtering messages according to the application's needs. Message consumers listen to the queues, and perform work based on incoming messages.
 
