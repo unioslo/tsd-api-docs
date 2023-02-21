@@ -146,7 +146,7 @@ with attributes as follows:
 ```json
 {
   "acr": "level3",
-  "amr": "TSD-Auth",
+  "amr": ["password", "totp"],
   "aud": "944b2d25-7871-4c60-91cf-d44d38e918bd",
   "auth_time": 1612954079,
   "exp": 1613032977,
@@ -162,7 +162,7 @@ with attributes as follows:
 The claims are:
 
 * `acr`, Authentication Context Class Reference, or level of assurance
-* `amr`, Authentication Methods References, identifies the authentication method used
+* `amr`, Authentication Methods References, identifies the authentication methods used
 * `aud`, the audience, i.e. client_id
 * `auth_time`, time when authentication occurred
 * `exp`, time when id_token expires
