@@ -87,7 +87,7 @@ redirect_uri=https%3A%2F%2Fmyapp.com%2Fresources%0A&
 nonce=oaBP3Db6tQiLSV1TrDO0PnJ97Msea8FUoV8RZLLl-x8
 ```
 
-Public clients omit the `Authorization` header, but include the `code_verifier`:
+Public clients must use PKCE, and omit the `Authorization` header, but include the `code_verifier`:
 
 ```txt
 POST /tsd-oidc-provider/token
@@ -106,6 +106,20 @@ The following conditions must hold:
 * the `redirect_uri` must be the same as the one used in the `/authorize` request
 * the `nonce` must be the same as the one used in the `/authorize` request
 
+It is possible to use the `/token` endpoint with the refresh token (returned as part of the ID token) to obtain a new ID token:
+
+```txt
+POST /tsd-oidc-provider/token
+Authorization: Basic b64(client_id:client_secret)
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&
+refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NDRiMmQyNS03ODcxLTRjNjAtOTFjZi1kNDRkMzhlOTE4YmQiLCJleHAiOjE2MTMwMzI5NzcsImlkIjoicDExLWxlb25jZCJ9.9V4z7GHI27x3avyGtcrxCTpRthHtZgZKhfDKFc-4u4Y&
+scope=openid
+```
+
+Here it is up to the client to request the scopes they want, while the `openid` scope is compulsory. This will return a new ID token, with a new `nonce`, tied to the same session. If the session has expired, then refresh tokens can no longer be used.
+
 
 ### idtoken
 
@@ -115,7 +129,7 @@ If the `/token` request is successful, then an `idtoken` is returned, e.g.:
 {
     "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NDRiMmQyNS03ODcxLTRjNjAtOTFjZi1kNDRkMzhlOTE4YmQiLCJleHAiOjE2MTMwMzI5NzcsImlkIjoicDExLWxlb25jZCJ9.9V4z7GHI27x3avyGtcrxCTpRthHtZgZKhfDKFc-4u4Y",
     "token_type": "Bearer",
-    "refresh_token": null,
+    "refresh_token": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NDRiMmQyNS03ODcxLTRjNjAtOTFjZi1kNDRkMzhlOTE4YmQiLCJleHAiOjE2MTMwMzI5NzcsImlkIjoicDExLWxlb25jZCJ9.9V4z7GHI27x3avyGtcrxCTpRthHtZgZKhfDKFc-4u4Y",
     "expires_in": 30,
     "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkZoSFBTNm90NTNmdnZIM3QtSlV3Vm5hMmVzczNYcUx2dkNuQWl1cWp4dm8ifQ.eyJhY3IiOiJsZXZlbDMiLCJhbXIiOiJUU0QtQXV0aCIsImF1ZCI6Ijk0NGIyZDI1LTc4NzEtNGM2MC05MWNmLWQ0NGQzOGU5MThiZCIsImF1dGhfdGltZSI6MTYxMjk1NDA3OSwiZXhwIjoxNjEzMDMyOTc3LCJpYXQiOjE2MTMwMzExNzcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6Mjk5OS92MS9hbGwvdHNkLW9pZGMtcHJvdmlkZXIiLCJub25jZSI6Im9hQlAzRGI2dFFpTFNWMVRyRE8wUG5KOTdNc2VhOEZVb1Y4UlpMTGwteDgiLCJwcm9qIjoicDExIiwic3ViIjoiIiwidXNlciI6InAxMS1sZW9uY2QifQ.ZvsUpnABXswcHcrFWLJFfuUF6Pa7-Rl1gsg2ScjhesU9DU6xvUTQdqFyO97DYWpAtkDBL0Cr9spVcOueObsFJS5vtvvltwk3ZND0-91V0eDbpgOe8rpPgjf_L7ykbSLjXVyLg2NxvBPu0aSlsPW884yyqo37rzg022WNLbqojZUnpZKyP-7_04BFu7zuMd6FONHjEqZFtzOzJFb0gt_U9q_AbQ5WBb3yGmJwNg7NFSkmPBK8OUOomcym90TcFTXvthUzuRr4gooppAC2q48LV_Xr1dRvpqJTpA_jjX4BzVA1qFsharmMDexjyx_8oJdfFCm8X4Lqnocyk00K3jnD3w"
 }
@@ -125,7 +139,7 @@ with attributes as follows:
 
 * `access_token`, a JWT for use at the `/userinfo` endpoint
 * `token_type`, which type of token the `access_token` is
-* `refresh_token`, `null` in this case
+* `refresh_token`, a JWT which can be used to fetch a new ID token and the `/token`  endpoint
 * `expires_in`, minutes in which the `id_token` expires
 * `id_token`, a JWT with the following claims, e.g.:
 
