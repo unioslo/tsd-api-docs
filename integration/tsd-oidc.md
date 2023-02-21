@@ -61,9 +61,10 @@ Supported parameters are:
     * supported values `level3`, `level1`
     * `level3`, password and OTP is the default
     * `level1`, password only, is only supported inside TSD
-* `prompt`, _optional_, used in combination with `id_token_hint` when `prompt=none` to perform SSO
+* `prompt`, _optional_, accepted values: `login`, `none`, `select_account`, used during SSO
 * `max_age`, _optional_, use in combination with `prompt` specifying the maximum amount of minutes which may have elapsed since the previous authentication, TSD enforces a maximum of two hours, clients can choose smaler values
-* `id_token_hint`, _optional_, the ID token itself, compulsory to include when doing SSO with `prompt`
+* `id_token_hint`, _optional_, the ID token itself, used during SSO
+* `login_hint`, _optional_, the name user account which you want to login, used during SSO
 
 A successful request to `/authorize` will result in the provider prompting the user for authentication. If authentication succeeds, then the provider will redirect back to the provided `redirect_uri`, adding the `state` parameter, and the `code`, to be used in the `/token` request. An example redirect is:
 
@@ -122,6 +123,17 @@ scope=openid
 Here it is up to the client to request the scopes they want, while the `openid` scope is compulsory. This will return a new ID token, with a new `nonce`, tied to the same session. If the session has expired, then refresh tokens can no longer be used.
 
 
+### Single Sign-On (SSO)
+
+SSO is an opt-in feature which is tied to a session maintained by the OIDC provider. This session lasts 2 hours.
+
+If a client performs an authorization request and includes `prompt=login`, then the provider will always authenticate the user, regardless of the status of the user's session.
+
+There are two ways to opt-in to SSO, both of them controlled by sending parameters in the authorization request:
+
+1. `prompt=none` - if there is an active session for the current browser, the user will logged into the TSD account with which they last logged in with
+2. `prompt=select_account&login_hint=p12-test&id_token_hint=<idtoken>` - this is how clients can switch between different TSD accounts without requiring re-authentication; it requires that the client cache the latest ID token
+
 ### idtoken
 
 If the `/token` request is successful, then an `idtoken` is returned, e.g.:
@@ -173,7 +185,8 @@ with attributes as follows:
     }
   },
   "sub": "226d4cb4-5e95-40a2-855d-583e5a8930a5",
-  "user": "p11-test"
+  "user": "p11-test",
+  "users": ["p11-test", "p12-test"]
 }
 ```
 
@@ -195,6 +208,7 @@ Along with provider specific claim:
 
 * `proj`, which TSD project was authenticated against
 * `user`, the user name which was used during authentication
+* `users`, all active users, tied to active affiliated projects
 * `projects`, list of active projects which the user is affiliated with
 * `projects_info`, extended information
   * `project_name`, the short name of the project
@@ -211,6 +225,10 @@ To get additional information about authenticated users, client can make request
 * `sub`
 * `user`
 * `proj`
+
+Clients can request addition scopes based on what they have been authorized for:
+
+* `users`
 * `groups`
 * `mods`
 * `email`
