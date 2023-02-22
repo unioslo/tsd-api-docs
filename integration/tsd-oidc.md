@@ -170,7 +170,7 @@ with attributes as follows:
   "nonce": "oaBP3Db6tQiLSV1TrDO0PnJ97Msea8FUoV8RZLLl-x8",
   "proj": "p11",
   "projects": ["p11", "p12"],
-  "projects_info": {
+  "projects-info": {
     "p11": {
       "project_name": "test project",
       "project_start_date": "2014-01-01",
@@ -210,7 +210,7 @@ Along with provider specific claim:
 * `user`, the user name which was used during authentication
 * `users`, all active users, tied to active affiliated projects
 * `projects`, list of active projects which the user is affiliated with
-* `projects_info`, extended information
+* `projects-info`, extended information
   * `project_name`, the short name of the project
   * `project_start_date`, when the project starts
   * `project_end_date`, when the project ends
@@ -234,7 +234,7 @@ Clients can request addition scopes based on what they have been authorized for:
 * `email`
 * `profile`
 * `projects`
-* `projects_info`
+* `projects-info`
 
 If clients prefer to receive results from the `/userinfo` endpoint as signed JWT instead of JSON, then they can request this from TSD. An example request is:
 
