@@ -17,6 +17,8 @@ The following endpoints are available:
 /v1/p11/survey/{formid}/audit
 /v1/p11/survey/{formid}/attachments
 /v1/p11/survey/{formid}/access
+/v1/p11/survey/{formid}/tasks/definitions
+/v1/p11/survey/{formid}/tasks/deliveries
 /v1/p11/survey/crypto/key
 /v1/p11/survey/resumables
 ```
@@ -386,6 +388,55 @@ The API keeps track of all changes made to JSON form data. Client can retrieve s
 ```txt
 GET /v1/p11/survey/1234/audit
 Authorization: Bearer $survey_export
+```
+
+### Tasks
+
+To create a task, it must first be defined:
+```txt
+PUT /v1/p11/survey/1234/tasks/definitions
+Authorization: Bearer $survey_import
+
+{
+    "definitions": [
+        {
+            "type": "helsenorge",
+            "attributes": {
+                "task_description": "",
+                "task_title": "",
+                "organisation_name": "",
+                "contact_question": "",
+                "instructions": "",
+                "organisation_phone": "",
+                "organisation_number": "",
+                "days_to_complete": "",
+            }
+        },
+    ]
+}
+```
+
+Once defined, tasks can be created:
+```txt
+PUT /v1/p11/survey/1234/tasks/deliveries
+Authorization: Bearer $survey_import
+
+{
+    "type": "helsenorge",
+    "id": <uuid>,
+    "fnr": "",
+    "created_date": "",
+    "end_date": "",
+    "completed": false
+    "completed_date": null,
+    "created_by": <user>
+}
+```
+
+To get an overview of the status of created tasks
+```txt
+GET /v1/p11/survey/1234/tasks/deliveries
+Authorization: Bearer $survey_import
 ```
 
 ### Files
