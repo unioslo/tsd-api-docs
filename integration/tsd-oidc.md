@@ -129,10 +129,11 @@ SSO is an opt-in feature which is tied to a session maintained by the OIDC provi
 
 If a client performs an authorization request and includes `prompt=login`, then the provider will always authenticate the user, regardless of the status of the user's session.
 
-There are two ways to opt-in to SSO, both of them controlled by sending parameters in the authorization request:
+There are three ways to opt-in to SSO, both of them controlled by sending parameters in the authorization request:
 
 1. `prompt=none` - if there is an active session for the current browser, the user will logged into the TSD account with which they last logged in with
 2. `prompt=select_account&login_hint=p12-test&id_token_hint=<idtoken>` - this is how clients can switch between different TSD accounts without requiring re-authentication; it requires that the client cache the latest ID token
+3. Not sending a `prompt` at all
 
 ### idtoken
 
