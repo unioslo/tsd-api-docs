@@ -5,7 +5,6 @@ Use case:
 * collect data with Nettskjema
 * create HTML reports using respondent data
 * make the reports available to a group of people
-  * without making them members of the project
   * using electronic identities which they already have
 
 ## Overview
@@ -24,9 +23,12 @@ Use case:
 
 ## 0. Prerequisites and limitations
 
-* Have a user in an active TSD project
-* Have a virtual machine on which the report-generation will run (Windows, or Linux - project admins can order VMs)
-* The group of people who will access reports about respondents must be able to login with idporten/BankID, and must therefore have a Norwegian electronic identity
+* Have an active TSD project
+* Have an API client, created [on request](https://www.uio.no/english/services/it/research/sensitive-data/contact/)
+* Whitelist the IP where you publication app will run, created [on request](https://www.uio.no/english/services/it/research/sensitive-data/contact/)
+* The group of people who will access reports about respondents:
+  * must be able to login with idporten/BankID, and must therefore have a Norwegian electronic identity
+  * must be made associated members of the TSD project
 
 
 ## 1. Create groups
