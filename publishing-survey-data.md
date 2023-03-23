@@ -3,7 +3,7 @@
 
 Use case:
 * collect data with Nettskjema
-* create HTML reports using respondent data
+* create HTML reports, or JSON files using respondent data
 * make the reports available to a group of people
   * using electronic identities which they already have
 
