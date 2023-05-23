@@ -21,6 +21,10 @@ The following endpoints are available:
 /v1/p11/survey/{formid}/tasks/deliveries
 /v1/p11/survey/crypto/key
 /v1/p11/survey/resumables
+/v1/p11/survey/config
+/v1/p11/survey/schemas/{schema}
+/v1/p11/survey/tasks/definitions
+/v1/p11/survey/tasks/deliveries
 ```
 
 The following sections will explain how to use them. We will use a hypothetical formid `1234`.
@@ -33,6 +37,7 @@ There are three different access tokens:
 2. `survey_export` - TSD auth
 3. `survey_admin` - TSD auth
 4. `survey_member` - TSD auth (available inside TSD)
+5. `survey_client` - basic auth
 
 Their use will be demonstrated in the examples below.
 
@@ -69,6 +74,32 @@ If the form is inactive:
 
 ```json
 {"formid": "121113", "status": "inactive"}
+```
+
+### Survey config
+
+Clients can store application specific configuration in the config endpoint:
+
+```txt
+PUT /v1/p11/survey/config
+Authorization: Bearer $survey_client
+```
+
+Existing config can be edited via `PATCH`, deleted via `DELETE`, and queried with `GET`.
+
+### Schemas
+
+Clients can upload schemas:
+```txt
+PUT /v1/p11/survey/schemas/{schema}
+Authorization: Bearer $survey_client
+```
+
+
+Clients can fetch schemas:
+```txt
+GET /v1/p11/survey/schemas/{shema}
+Authorization: Bearer $survey_client
 ```
 
 ### Access controls
