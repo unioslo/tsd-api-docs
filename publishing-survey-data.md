@@ -103,7 +103,7 @@ This is issued [on request](https://www.uio.no/english/services/it/research/sens
 ## 6. Fetch data from the survey API
 
 ```txt
-POST /v1/{pnum}/auth/basic/token?type=auto_publication
+POST /v1/{pnum}/auth/basic/token?type=survey_export_auto
 Authorization: Bearer $api_key
 ```
 * the `api_key` is the secret which you receive along with your API client, also called a client secret
@@ -131,7 +131,7 @@ To ensure data collected from Nettskjema respondents can be shared, the reponden
 ```txt
 POST /v1/{pnum}/iam/persons
 Content-Type: application/json
-Authorization: Bearer $access_token
+Authorization: Bearer $auto_publication
 
 {
     "full_name": "First Last",
