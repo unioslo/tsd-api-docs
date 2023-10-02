@@ -31,13 +31,14 @@ The following sections will explain how to use them. We will use a hypothetical 
 
 ### Access tokens
 
-There are three different access tokens:
+The following access tokens can operate on the survey API:
 
 1. `survey_import` - basic and TSD auth
 2. `survey_export` - TSD auth
 3. `survey_admin` - TSD auth
 4. `survey_member` - TSD auth (available inside TSD)
 5. `survey_client` - basic auth
+6. `survey_export_auto` - basic auth, for automated data export
 
 Their use will be demonstrated in the examples below.
 
