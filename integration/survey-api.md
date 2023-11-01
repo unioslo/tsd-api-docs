@@ -305,6 +305,12 @@ Combining with `and` and `or`:
 ?where=(data[0|variable]=like.ans*,or:data[0|degree]=gt.4),and:data[1|code]=not.is.null
 ```
 
+Using the `in` operator:
+
+```txt
+?where=data[0|variable]=in.[val1,val2,val3]
+```
+
 The full operator list for `where` filtering is:
 
 * `and` - `and`
