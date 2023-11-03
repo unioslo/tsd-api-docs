@@ -1,0 +1,422 @@
+[
+    {
+        "theme": "DEFAULT",
+        "title": "tutorial-form",
+        "formId": 375224,
+        "openTo": null,
+        "editors": [
+            {
+                "name": "Torjus H\u00e5kestad",
+                "type": "LOCAL",
+                "email": "torjus@uio.no",
+                "personId": 123456,
+                "username": "torjus@uio.no"
+            }
+        ],
+        "version": "2023-03",
+        "elements": [
+            {
+                "text": "Would you rather fight 100 duck-sized horses, or 1 horse-sized duck?",
+                "altText": null,
+                "sequence": 1,
+                "elementId": 5845750,
+                "dateFormat": null,
+                "description": null,
+                "elementType": "RADIO",
+                "subElements": [],
+                "answerOptions": [
+                    {
+                        "text": "100 duck-sized horses",
+                        "sequence": 1,
+                        "answerOptionId": 14178270,
+                        "externalAnswerOptionId": "100_horses"
+                    },
+                    {
+                        "text": "1 horse-sized duck",
+                        "sequence": 2,
+                        "answerOptionId": 14178271,
+                        "externalAnswerOptionId": "1_duck"
+                    }
+                ],
+                "isAnswerHashed": false,
+                "externalElementId": "duck_or_horse",
+                "nationalIdNumberType": null
+            },
+            {
+                "text": "Which of the following animals could you beat in a fight?",
+                "altText": null,
+                "sequence": 2,
+                "elementId": 5845751,
+                "dateFormat": null,
+                "description": null,
+                "elementType": "MATRIX_RADIO",
+                "subElements": [
+                    {
+                        "text": "rat",
+                        "sequence": 1,
+                        "questionId": 6471474,
+                        "description": null,
+                        "subElementId": 6471474,
+                        "externalElementId": "rat"
+                    },
+                    {
+                        "text": "horse",
+                        "sequence": 2,
+                        "questionId": 6471475,
+                        "description": null,
+                        "subElementId": 6471475,
+                        "externalElementId": "horse"
+                    },
+                    {
+                        "text": "cat",
+                        "sequence": 3,
+                        "questionId": 6471476,
+                        "description": null,
+                        "subElementId": 6471476,
+                        "externalElementId": "cat"
+                    },
+                    {
+                        "text": "moose",
+                        "sequence": 4,
+                        "questionId": 6471477,
+                        "description": null,
+                        "subElementId": 6471477,
+                        "externalElementId": "moose"
+                    },
+                    {
+                        "text": "elephant",
+                        "sequence": 5,
+                        "questionId": 6471478,
+                        "description": null,
+                        "subElementId": 6471478,
+                        "externalElementId": "elephant"
+                    },
+                    {
+                        "text": "hippo",
+                        "sequence": 6,
+                        "questionId": 6471479,
+                        "description": null,
+                        "subElementId": 6471479,
+                        "externalElementId": "hippo"
+                    },
+                    {
+                        "text": "tiger",
+                        "sequence": 7,
+                        "questionId": 6471480,
+                        "description": null,
+                        "subElementId": 6471480,
+                        "externalElementId": "tiger"
+                    },
+                    {
+                        "text": "seal",
+                        "sequence": 8,
+                        "questionId": 6471481,
+                        "description": null,
+                        "subElementId": 6471481,
+                        "externalElementId": "seal"
+                    },
+                    {
+                        "text": "crocodile",
+                        "sequence": 9,
+                        "questionId": 6471482,
+                        "description": null,
+                        "subElementId": 6471482,
+                        "externalElementId": "crocodile"
+                    },
+                    {
+                        "text": "beaver",
+                        "sequence": 10,
+                        "questionId": 6471483,
+                        "description": null,
+                        "subElementId": 6471483,
+                        "externalElementId": "beaver"
+                    },
+                    {
+                        "text": "chimpanzee",
+                        "sequence": 11,
+                        "questionId": 6471484,
+                        "description": null,
+                        "subElementId": 6471484,
+                        "externalElementId": "chimpanzee"
+                    },
+                    {
+                        "text": "kangaroo",
+                        "sequence": 12,
+                        "questionId": 6471485,
+                        "description": null,
+                        "subElementId": 6471485,
+                        "externalElementId": "kangaroo"
+                    }
+                ],
+                "answerOptions": [
+                    {
+                        "text": "I win",
+                        "sequence": 1,
+                        "answerOptionId": 14178272,
+                        "externalAnswerOptionId": "win"
+                    },
+                    {
+                        "text": "Draw",
+                        "sequence": 2,
+                        "answerOptionId": 14178273,
+                        "externalAnswerOptionId": "draw"
+                    },
+                    {
+                        "text": "Animal wins",
+                        "sequence": 3,
+                        "answerOptionId": 14178274,
+                        "externalAnswerOptionId": "loss"
+                    }
+                ],
+                "isAnswerHashed": false,
+                "externalElementId": "fight_animal",
+                "nationalIdNumberType": null
+            }
+        ],
+        "formType": "HIGH_SECURITY",
+        "openFrom": null,
+        "createdBy": {
+            "name": "Torjus H\u00e5kestad",
+            "type": "LOCAL",
+            "email": "torjus@uio.no",
+            "personId": 144881,
+            "username": "torjus@uio.no"
+        },
+        "modifiedBy": {
+            "name": "Torjus H\u00e5kestad",
+            "type": "LOCAL",
+            "email": "torjus@uio.no",
+            "personId": 144881,
+            "username": "torjus@uio.no"
+        },
+        "titleShort": null,
+        "createdDate": "2023-10-30T13:38:25",
+        "languageCode": "nb",
+        "modifiedDate": "2023-10-30T15:20:04",
+        "generatedDate": "2023-10-30T15:20:41.292280852",
+        "isConsentForm": false,
+        "netgroupsEditor": [],
+        "respondentGroup": "ALL",
+        "editorsContactUrl": null,
+        "maxSubmissionsForm": null,
+        "deliveryDestination": "DATABASE",
+        "editorsContactEmail": "torjus@uio.no",
+        "collectsPersonalData": false,
+        "personsWithCopyPermission": [],
+        "afterDeliveryForwardFormIds": null,
+        "netgroupsWithCopyPermission": [],
+        "personalDataPurposeDescription": null,
+        "isSensitivePersonalDataCollected": false,
+        "personalDataSharedOutsideInstitutionWith": null
+    },
+    {
+        "theme": "DEFAULT",
+        "title": "tutorial-form",
+        "formId": 375224,
+        "openTo": "2024-10-30T15:21:02.628",
+        "editors": [
+            {
+                "name": "Torjus H\u00e5kestad",
+                "type": "LOCAL",
+                "email": "torjus@uio.no",
+                "personId": 144881,
+                "username": "torjus@uio.no"
+            }
+        ],
+        "version": "2023-03",
+        "elements": [
+            {
+                "text": "Would you rather fight 100 duck-sized horses, or 1 horse-sized duck?",
+                "altText": null,
+                "sequence": 1,
+                "elementId": 5845750,
+                "dateFormat": null,
+                "description": null,
+                "elementType": "RADIO",
+                "subElements": [],
+                "answerOptions": [
+                    {
+                        "text": "100 duck-sized horses",
+                        "sequence": 1,
+                        "answerOptionId": 14178270,
+                        "externalAnswerOptionId": "100_horses"
+                    },
+                    {
+                        "text": "1 horse-sized duck",
+                        "sequence": 2,
+                        "answerOptionId": 14178271,
+                        "externalAnswerOptionId": "1_duck"
+                    }
+                ],
+                "isAnswerHashed": false,
+                "externalElementId": "duck_or_horse",
+                "nationalIdNumberType": null
+            },
+            {
+                "text": "Which of the following animals could you beat in a fight?",
+                "altText": null,
+                "sequence": 2,
+                "elementId": 5845751,
+                "dateFormat": null,
+                "description": null,
+                "elementType": "MATRIX_RADIO",
+                "subElements": [
+                    {
+                        "text": "rat",
+                        "sequence": 1,
+                        "questionId": 6471474,
+                        "description": null,
+                        "subElementId": 6471474,
+                        "externalElementId": "rat"
+                    },
+                    {
+                        "text": "horse",
+                        "sequence": 2,
+                        "questionId": 6471475,
+                        "description": null,
+                        "subElementId": 6471475,
+                        "externalElementId": "horse"
+                    },
+                    {
+                        "text": "cat",
+                        "sequence": 3,
+                        "questionId": 6471476,
+                        "description": null,
+                        "subElementId": 6471476,
+                        "externalElementId": "cat"
+                    },
+                    {
+                        "text": "moose",
+                        "sequence": 4,
+                        "questionId": 6471477,
+                        "description": null,
+                        "subElementId": 6471477,
+                        "externalElementId": "moose"
+                    },
+                    {
+                        "text": "elephant",
+                        "sequence": 5,
+                        "questionId": 6471478,
+                        "description": null,
+                        "subElementId": 6471478,
+                        "externalElementId": "elephant"
+                    },
+                    {
+                        "text": "hippo",
+                        "sequence": 6,
+                        "questionId": 6471479,
+                        "description": null,
+                        "subElementId": 6471479,
+                        "externalElementId": "hippo"
+                    },
+                    {
+                        "text": "tiger",
+                        "sequence": 7,
+                        "questionId": 6471480,
+                        "description": null,
+                        "subElementId": 6471480,
+                        "externalElementId": "tiger"
+                    },
+                    {
+                        "text": "seal",
+                        "sequence": 8,
+                        "questionId": 6471481,
+                        "description": null,
+                        "subElementId": 6471481,
+                        "externalElementId": "seal"
+                    },
+                    {
+                        "text": "crocodile",
+                        "sequence": 9,
+                        "questionId": 6471482,
+                        "description": null,
+                        "subElementId": 6471482,
+                        "externalElementId": "crocodile"
+                    },
+                    {
+                        "text": "beaver",
+                        "sequence": 10,
+                        "questionId": 6471483,
+                        "description": null,
+                        "subElementId": 6471483,
+                        "externalElementId": "beaver"
+                    },
+                    {
+                        "text": "chimpanzee",
+                        "sequence": 11,
+                        "questionId": 6471484,
+                        "description": null,
+                        "subElementId": 6471484,
+                        "externalElementId": "chimpanzee"
+                    },
+                    {
+                        "text": "kangaroo",
+                        "sequence": 12,
+                        "questionId": 6471485,
+                        "description": null,
+                        "subElementId": 6471485,
+                        "externalElementId": "kangaroo"
+                    }
+                ],
+                "answerOptions": [
+                    {
+                        "text": "I win",
+                        "sequence": 1,
+                        "answerOptionId": 14178272,
+                        "externalAnswerOptionId": "win"
+                    },
+                    {
+                        "text": "Draw",
+                        "sequence": 2,
+                        "answerOptionId": 14178273,
+                        "externalAnswerOptionId": "draw"
+                    },
+                    {
+                        "text": "Animal wins",
+                        "sequence": 3,
+                        "answerOptionId": 14178274,
+                        "externalAnswerOptionId": "loss"
+                    }
+                ],
+                "isAnswerHashed": false,
+                "externalElementId": "fight_animal",
+                "nationalIdNumberType": null
+            }
+        ],
+        "formType": "HIGH_SECURITY",
+        "openFrom": "2023-10-30T15:21:00",
+        "createdBy": {
+            "name": "Torjus H\u00e5kestad",
+            "type": "LOCAL",
+            "email": "torjus@uio.no",
+            "personId": 123456,
+            "username": "torjus@uio.no"
+        },
+        "modifiedBy": {
+            "name": "Torjus H\u00e5kestad",
+            "type": "LOCAL",
+            "email": "torjus@uio.no",
+            "personId": 123456,
+            "username": "torjus@uio.no"
+        },
+        "titleShort": null,
+        "createdDate": "2023-10-30T13:38:25",
+        "languageCode": "nb",
+        "modifiedDate": "2023-10-30T15:21:06.174563748",
+        "generatedDate": "2023-10-30T15:21:06.179337258",
+        "isConsentForm": false,
+        "netgroupsEditor": [],
+        "respondentGroup": "ALL",
+        "editorsContactUrl": null,
+        "maxSubmissionsForm": null,
+        "deliveryDestination": "TSD",
+        "editorsContactEmail": "torjus@uio.no",
+        "collectsPersonalData": false,
+        "personsWithCopyPermission": [],
+        "afterDeliveryForwardFormIds": null,
+        "netgroupsWithCopyPermission": [],
+        "personalDataPurposeDescription": null,
+        "isSensitivePersonalDataCollected": false,
+        "personalDataSharedOutsideInstitutionWith": null
+    }
+]

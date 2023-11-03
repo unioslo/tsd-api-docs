@@ -1,0 +1,102 @@
+[
+    {
+        "answers": {
+            "fight_animal": {
+                "cat": "win",
+                "rat": "win",
+                "seal": "draw",
+                "hippo": "loss",
+                "horse": "loss",
+                "moose": "loss",
+                "tiger": "loss",
+                "beaver": "win",
+                "elephant": "loss",
+                "kangaroo": "loss",
+                "crocodile": "loss",
+                "chimpanzee": "loss"
+            },
+            "duck_or_horse": "100_horses"
+        },
+        "version": "2022-07",
+        "metadata": {
+            "created": "2023-10-30T00:00:00+01:00",
+            "answer_time": 26515,
+            "submission_id": 29246211
+        }
+    },
+    {
+        "answers": {
+            "fight_animal": {
+                "cat": "win",
+                "rat": "win",
+                "seal": "draw",
+                "hippo": "loss",
+                "horse": "draw",
+                "moose": "loss",
+                "tiger": "loss",
+                "beaver": "win",
+                "elephant": "loss",
+                "kangaroo": "draw",
+                "crocodile": "draw",
+                "chimpanzee": "loss"
+            },
+            "duck_or_horse": "1_duck"
+        },
+        "version": "2022-07",
+        "metadata": {
+            "created": "2023-10-30T00:00:00+01:00",
+            "answer_time": 26537,
+            "submission_id": 29247265
+        }
+    },
+    {
+        "answers": {
+            "fight_animal": {
+                "cat": "draw",
+                "rat": "draw",
+                "seal": "draw",
+                "hippo": "draw",
+                "horse": "draw",
+                "moose": "draw",
+                "tiger": "draw",
+                "beaver": "draw",
+                "elephant": "draw",
+                "kangaroo": "draw",
+                "crocodile": "draw",
+                "chimpanzee": "draw"
+            },
+            "duck_or_horse": "1_duck"
+        },
+        "version": "2022-07",
+        "metadata": {
+            "created": "2023-10-30T00:00:00+01:00",
+            "answer_time": 9015,
+            "submission_id": 29247293
+        }
+    },
+    {
+        "answers": {
+            "fight_animal": {
+                "cat": "win",
+                "rat": "win",
+                "seal": "win",
+                "hippo": "loss",
+                "horse": "win",
+                "moose": "draw",
+                "tiger": "loss",
+                "beaver": "win",
+                "elephant": "loss",
+                "kangaroo": "win",
+                "crocodile": "win",
+                "chimpanzee": "draw"
+            },
+            "duck_or_horse": "100_horses"
+        },
+        "version": "2022-07",
+        "metadata": {
+            "created": "2023-10-30T00:00:00+01:00",
+            "answer_time": 26104,
+            "submission_id": 29247697
+        }
+    }
+]
