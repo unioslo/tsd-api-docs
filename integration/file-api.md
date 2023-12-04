@@ -37,6 +37,8 @@ Authorization: Bearer $import_token
 ```
 Note: if the requestor is not a member of the group in the URI, then the listing will return 401.
 
+Listing files returns an object `{"files": [{...}, {....}], "page": "/v1/p11/files/stream/p11-data-group?page=1"}`. This object contains two keys, the first referencing a list of file attributes, collected in objects themselves. The second is an URL which the client can call to get the next page. If the result is complete, then the `page` value is `null`. The default page size is 100. Clients can request larger page sizes by passing the `per_page=1000` query parameter (the maximum page size is 50000).
+
 ### Simple file download
 
 To list the export directory
