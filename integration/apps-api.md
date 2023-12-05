@@ -63,12 +63,12 @@ Apps API manages data records, i. e. table rows, as JSON documents, each of whic
 
 #### Writing
 
-To insert a data record into the table send the JSON-serialised data record as payload:
+To insert one or more data records into the table send the JSON-serialised data either as a map or a list of maps:
 ```txt
 PUT /v1/p11/apps/my-app/tables/my-table
 Authorization: Bearer $token
 
-{...}
+{...}|[{...}, {...}]
 ```
 
 #### Reading
