@@ -29,7 +29,7 @@ The apps API implements a mandatory access control model designed around differe
 | :-: | :-----------: | :---------: | :--: | :--------------: | :--------------: |
 | machines | app-basic | basic | outside | W | - |
 | data owners | app-user | OIDC | outside | R, W | R, W, U, D |
-| researchers | app-member | TSD | inside | R | R |
+| researchers | app-member | OIDC | inside | R | R |
 | administrators | app-admin | OIDC | outside, inside | R, W, U, D | R, W, U, D |
 
 * `R`: read, GET, HEAD
