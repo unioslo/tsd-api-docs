@@ -311,6 +311,12 @@ Using the `in` operator:
 ?where=data[0|variable]=in.[val1,val2,val3]
 ```
 
+To avoid issues with special characters, callers can quote the values in where clauses:
+
+```txt
+?where=metaData.timestamp=eq.'2020-10-13T20:40:26.208001'
+```
+
 The full operator list for `where` filtering is:
 
 * `and` - `and`
@@ -361,14 +367,27 @@ For example, to get the number of table entries, along with the timestamp of the
 ?select=count(*),max_ts(metaData.timestamp)
 ```
 
-Aggregate queries can be broadcast over all tables as such:
+#### Broadcasting queries
 
+Clients can apply queries to mulitple endpoints at the same time, by using fuzzy matching on endpoint names. Some examples follow.
+
+Get the number of entries and last time of submission:
 ```txt
 GET /v1/p11/survey/*/submissions?select=count(*),max_ts(metaData.timestamp)
 Authorization: Bearer $survey_export
 ```
 
-This will yield the number of entries and latest timestamp for all tables in the project.
+Get all submissions for a subset of forms IDs starting with `11`:
+```txt
+GET /v1/p11/survey/11*/submissions
+Authorization: Bearer $survey_export
+```
+
+Get the latest metadata for all forms:
+```txt
+GET /v1/p11/survey/*/metadata?order=metaData.timestamp.desc&range=0.1
+Authorization: Bearer $survey_export
+```
 
 ### JSON data
 
