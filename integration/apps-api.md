@@ -175,6 +175,11 @@ Combining with `and` and `or`:
 ?where=(data[0|variable]=like.ans*,or:data[0|degree]=gt.4),and:data[1|code]=not.is.null
 ```
 
+To avoid issues with special characters, callers can quote the values in where clauses:
+```txt
+?where=metaData.timestamp=eq.'2020-10-13T20:40:26.208001'
+```
+
 The full operator list for `where` filtering is:
 
 * `and` - `and`
@@ -205,6 +210,40 @@ To limit the subset of records returned by a query to a specific range, one need
 range=1.2
 ```
 returns up to two records of the dataset, starting with the second record.
+
+#### Aggregation
+
+Clients can perform the following aggregation functions on data:
+
+* `count` - the number of entries in a selection
+* `avg` - geomertic average
+* `min` - minimum numeric value
+* `max` - maximum numeric value
+* `sum` - sum of numeric values
+* `min_ts` - minimum timestamp or date
+* `max_ts` - maximum timestamp or date
+
+For example, to get the number of table entries, along with the timestamp of the most recent entry:
+
+```txt
+?select=count(*),max_ts(metaData.timestamp)
+```
+
+#### Broadcasting queries
+
+Clients can apply queries to mulitple endpoints at the same time, by using fuzzy matching on endpoint names. Some examples follow.
+
+Get the number of entries and last time of a new entry for all tables:
+```txt
+GET /v1/p11/apps/{app}/tables/*?select=count(*),max_ts(metaData.timestamp)
+Authorization: Bearer $survey_export
+```
+
+Get all entries for a subset of table names starting with `lol`:
+```txt
+GET /v1/p11/apps/{app}/tables/lol*
+Authorization: Bearer $survey_export
+```
 
 ### Files
 
