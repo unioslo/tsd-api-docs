@@ -354,7 +354,7 @@ range=1.2
 Clients can perform the following aggregation functions on data:
 
 * `count` - the number of entries in a selection
-* `avg` - geomertic average
+* `avg` - geometric average
 * `min` - minimum numeric value
 * `max` - maximum numeric value
 * `sum` - sum of numeric values
