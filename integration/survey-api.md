@@ -369,9 +369,9 @@ For example, to get the number of table entries, along with the timestamp of the
 
 #### Broadcasting queries
 
-Clients can apply queries to mulitple endpoints at the same time, by using fuzzy matching on endpoint names. Some examples follow.
+Clients can apply queries to multiple endpoints at the same time, by using fuzzy matching on endpoint names. Some examples follow.
 
-Get the number of entries and last time of submission:
+Get the number of entries and last time of submission for all forms in the project:
 ```txt
 GET /v1/p11/survey/*/submissions?select=count(*),max_ts(metaData.timestamp)
 Authorization: Bearer $survey_export
