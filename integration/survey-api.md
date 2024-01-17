@@ -232,7 +232,7 @@ Before showing examples working with JSON data, it is necessary to understand th
 ```json
 [
     {
-        "metaData": {"submission_id": 1, "timestamp": "2020-10-13T10:15:26.388573"},
+        "metadata": {"submission_id": 1, "created": "2020-10-13T10:15:26.388573"},
         "data": [
             {"code": 0, "variable": "ans1", "text": "no", "degree": 5},
             {"code": 1, "variable": "ans2", "text": "bla"},
@@ -240,14 +240,14 @@ Before showing examples working with JSON data, it is necessary to understand th
         ]
     },
     {
-        "metaData": {"submission_id": 2, "timestamp": "2020-10-13T11:33:10.360211"},
+        "metadata": {"submission_id": 2, "created": "2020-10-13T11:33:10.360211"},
         "data": [
             {"code": 1, "variable": "ans1", "text": "no", "degree": 10},
             {"code": 2, "variable": "ans2", "text": "bla"}
         ]
     },
     {
-        "metaData": {"submission_id": 3, "timestamp": "2020-10-13T20:40:26.208001"},
+        "metadata": {"submission_id": 3, "created": "2020-10-13T20:40:26.208001"},
         "data": [
            {"code": 0, "variable": "ans1", "text": "no", "degree": 1}
        ]
@@ -259,10 +259,10 @@ Before showing examples working with JSON data, it is necessary to understand th
 
 To filter key, one can use the `select` clause.
 
-Only `metaData`:
+Only `metadata`:
 
 ```txt
-?select=metaData
+?select=metadata
 ```
 
 Only `data`:
@@ -287,10 +287,10 @@ Two keys, inside one array element in `data`:
 
 To filter rows, one can use the `where` clause.
 
-A row with a specific `submission_id`, nested inside the `metaData` key:
+A row with a specific `submission_id`, nested inside the `metadata` key:
 
 ```txt
-?where=metaData.submission_id=eq.1
+?where=metadata.submission_id=eq.1
 ```
 
 With a pattern match, broadcasting over all elements in the `data` key's array:
@@ -314,7 +314,7 @@ Using the `in` operator:
 To avoid issues with special characters, callers can quote the values in where clauses:
 
 ```txt
-?where=metaData.timestamp=eq.'2020-10-13T20:40:26.208001'
+?where=metadata.created=eq.'2020-10-13T20:40:26.208001'
 ```
 
 The full operator list for `where` filtering is:
@@ -338,7 +338,7 @@ The full operator list for `where` filtering is:
 To control the order of results:
 
 ```txt
-order=metaData.submission_id.desc
+order=metadata.submission_id.desc
 ```
 
 #### Paginating
@@ -364,7 +364,7 @@ Clients can perform the following aggregation functions on data:
 For example, to get the number of table entries, along with the timestamp of the most recent entry:
 
 ```txt
-?select=count(*),max_ts(metaData.timestamp)
+?select=count(*),max_ts(metadata.created)
 ```
 
 #### Broadcasting queries
@@ -373,7 +373,7 @@ Clients can apply queries to multiple endpoints at the same time, by using fuzzy
 
 Get the number of entries and last time of submission for all forms in the project:
 ```txt
-GET /v1/p11/survey/*/submissions?select=count(*),max_ts(metaData.timestamp)
+GET /v1/p11/survey/*/submissions?select=count(*),max_ts(metadata.created)
 Authorization: Bearer $survey_export
 ```
 
@@ -385,7 +385,7 @@ Authorization: Bearer $survey_export
 
 Get the latest metadata for all forms:
 ```txt
-GET /v1/p11/survey/*/metadata?order=metaData.timestamp.desc&range=0.1
+GET /v1/p11/survey/*/metadata?order=metadata.created.desc&range=0.1
 Authorization: Bearer $survey_export
 ```
 
@@ -405,7 +405,7 @@ Schemas are agreed upon between TSD and Nettskjema.
 To update data, use the query functionality to isolate the entry, and send the new row in its entirety:
 
 ```txt
-PATCH /v1/p11/survey/1234/submissions?set=data&where=metaData.submission_id=eq.1
+PATCH /v1/p11/survey/1234/submissions?set=data&where=metadata.submission_id=eq.1
 Authorization: Bearer $survey_import
 
 {data: [...]}
@@ -423,7 +423,7 @@ Authorization: Bearer $survey_export
 To delete data:
 
 ```txt
-DELETE /v1/p11/survey/1234/submissions?where=metaData.submission_id=eq.1
+DELETE /v1/p11/survey/1234/submissions?where=metadata.submission_id=eq.1
 Authorization: Bearer $survey_admin
 ```
 
@@ -641,7 +641,7 @@ For the encryption of client session keys, and nonces, the API uses [libsodium s
 To allow incremental, real-time data processing in respone to API requests clients should include the following headers in their HTTP requests for `PUT`:
 
 ```txt
-Resource-Identifier-Key: metaData.submissionId
+Resource-Identifier-Key: metadata.submissionId
 Resource-Identifier: 123456
 ```
 
