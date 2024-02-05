@@ -463,10 +463,15 @@ Authorization: Bearer $survey_import
                 "task_title": "",
                 "organisation_name": "",
                 "contact_question": "",
-                "instructions": "",
                 "organisation_phone": "",
                 "organisation_number": "",
                 "days_to_complete": "",
+                "sensitive": "1/0"
+                "code": "3/5"
+                "code_text": "Helsehjelp/Sekundærbruk"
+                "intent": "proposal/plan"
+                "delivery_form": <form_id>
+                "connected_forms": [<form_id>]
             }
         },
     ]
@@ -482,13 +487,16 @@ Authorization: Bearer $survey_import
     "type": "helsenorge",
     "id": <uuid>,
     "fnr": "",
+    "status": "init"
+    "status_message": ""
     "created_date": "",
     "end_date": "",
-    "completed": false
-    "completed_date": null,
     "created_by": <user>
 }
 ```
+
+Status codes of a delivery are: "init", "completed", "error", "sent", "deleted"
+
 
 To get an overview of the status of created tasks
 ```txt
