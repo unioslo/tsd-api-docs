@@ -491,7 +491,8 @@ Authorization: Bearer $survey_import
     "status_message": ""
     "created_date": "",
     "end_date": "",
-    "created_by": <user>
+    "created_by": <user>,
+    "completed_date": null
 }
 ```
 
