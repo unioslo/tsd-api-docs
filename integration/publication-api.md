@@ -1,9 +1,91 @@
 
 # Publication API
 
-The publication API allows persons to discover resources that have been shared with them by TSD projects (the actual sharing is performed by TSD researchers inside their projects, using an API which is currenty not available for general use).
+The publication API allows persons to discover resources that have been shared with them by TSD projects (the actual sharing is performed by TSD researchers inside their projects, using an API which is currently not available for general use).
 
-### Authentication
+## Datasets Metadata
+
+The datasets metadata is metadata published by projects for datasets they want to make available publicly or on demand. The information about the datasets is stored in table.
+
+### API for publishing dataset metadata
+
+Create a metadata for a dataset:
+
+```txt
+PUT /v1/<project>/publication/metadata
+Authorization: $publication_token
+data: 
+{
+   "id": "<uuid>"
+   ....
+}
+```
+
+where id is an unique dataset id.
+
+Fetch all metadata published for a project
+
+```txt
+GET /v1/<project>/publication/metadata
+Authorization: $publication_token
+Response:
+[
+  {},{},{}
+]
+```
+
+Fetch metadata for a specific dataset
+
+```txt
+GET /v1/<project>/publication/metadata/<dataset_id>
+Authorization: $publication_token
+Response:
+{
+  "id" : "<dataset_id>"
+  ...
+}
+```
+
+Delete metadata for a specific dataset
+
+```txt
+DELETE /v1/<project>/publication/metadata/<dataset_id>
+Authorization: $publication_token
+Response:
+{"status": "ok"}
+```
+
+Update metadata for a specific dataset
+
+```txt
+PATCH /v1/<project>/publication/metadata/<dataset_id>
+Authorization: $publication_token
+Data:
+{
+  "id" : "<dataset_id>"
+}
+Response:
+{"status": "ok"}
+```
+
+### Public Link to a dataset metadata
+
+Once published the dataset metadata is available as following
+
+```txt
+GET /v1/all/publication/metadata/<pnum>/<dataset_id>
+Response:
+{
+  "id" : "<dataset_id>"
+  ...
+}
+```
+
+## Discovery
+
+Discovery is the process person finding resources shared with them .
+
+### Discovery Authentication
 
 To use the publication API for discovering and downloading data, applications should perform token exchange with an OIDC provider (currently only ID-Porten is supported), and get an access token of type `person`.
 
@@ -51,7 +133,6 @@ where `{person_id}` is the value of the `pid` claim in the access token. A reque
   ]
 }
 ```
-
 
 To then get information about which persons provide data to the person via a resource group, another request needs to be made:
 
