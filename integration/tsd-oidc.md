@@ -129,7 +129,7 @@ SSO is an opt-in feature which is tied to a session maintained by the OIDC provi
 
 If a client performs an authorization request and includes `prompt=login`, then the provider will always authenticate the user, regardless of the status of the user's session.
 
-There are four ways to opt-in to SSO, each of them controlled by sending parameters in the authorization request:
+SSO can be used in the following ways, each of them controlled by sending parameters in the authorization request:
 
 1. `prompt=none` or no `prompt` at all - if there is an active session for the current browser, the user will logged into the TSD account with which they last logged in with.
 
