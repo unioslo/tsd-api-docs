@@ -176,12 +176,12 @@ Authorization: Bearer $apikey
 
 ### ID-porten authentication
 
-Using an external identity provider like [ID-porten](http://eid.difi.no/en/id-porten), with OIDC, allows your application to do identity bridging with TSD.
+Using an external identity provider like [ID-porten](https://eid.difi.no/nb/id-porten), with OIDC, allows your application to do identity bridging with TSD.
 
 Once you have registered your application with ID-porten, you will be able to obtain ID tokens. You can send these ID tokens to TSD, to get a TSD access token for a specific project:
 
 ```txt
-POST /v1/p11/auth/difi/token?type=<type>
+POST /v1/p11/auth/idporten/token?type=<type>
 Authorization: Bearer $apikey
 
 {
