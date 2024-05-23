@@ -47,6 +47,20 @@ GET /v1/p11/files/export
 Authorization: Bearer $export_token
 ```
 
+Listing files returns an object `{"files": [{...}, {....}], "page": "/v1/p11/files/export?page=1"}`. This object contains two keys, the first referencing a list of file attributes, collected in objects themselves. The second is an URL which the client can call to get the next page. If the result is complete, then the `page` value is `null`. New pages can be requested as such:
+
+```GET
+/v1/p11/files/export?page=1
+Authorization: Bearer $export_token
+```
+
+The default page size is 100. Clients can request larger page sizes by passing the `per_page` query parameter (the maximum page size is 50000), e.g.:
+
+```txt
+GET /v1/p11/file/export?per_page=1000
+Authorization: Bearer $survey_export
+```
+
 To check if a file exists, and get some metadata:
 ```txt
 HEAD /v1/p11/files/export/myfolder/myfile
