@@ -497,6 +497,7 @@ The fields are as follows:
 * `intent` - the intent of the task. The intent is one of the values 'proposal' and 'plan'. The intents are described in the [Helsenorge documentation](https://helsenorge.atlassian.net/wiki/spaces/HELSENORGE/pages/1805680641/Oppgaver+til+innbygger).
 * `delivery_form` - the form which will be used to deliver the task pdf.
 * `connected_forms` - a list of forms connected to the task. This list is important only if the delivery form is not the same as the task form.
+* `nettskjema_uri` - the Nettskjema uri one of these `https://www.nettskjema.uio.no` or `https://nettskjema.no` or `https://nettskjema-dev.uio.no` or `https://nettskjema-test.uio.no`
 
 Once defined, tasks can be created:
 
