@@ -450,6 +450,7 @@ Authorization: Bearer $survey_export
 ### Tasks
 
 To create a task, it must first be defined:
+
 ```txt
 PUT /v1/p11/survey/1234/tasks/definitions
 Authorization: Bearer $survey_import
@@ -461,24 +462,44 @@ Authorization: Bearer $survey_import
             "attributes": {
                 "task_description": "",
                 "task_title": "",
-                "organisation_name": "",
+                "organization_name": "",
                 "contact_question": "",
-                "organisation_phone": "",
-                "organisation_number": "",
+                "organization_phone": "",
+                "organization_number": "",
                 "days_to_complete": "",
                 "sensitive": "1/0"
                 "code": "3/5"
-                "code_text": "Helsehjelp/Sekundærbruk"
                 "intent": "proposal/plan"
                 "delivery_form": <form_id>
                 "connected_forms": [<form_id>]
+                "nettskjema_uri": ""
             }
+            "created": "",
         },
     ]
 }
 ```
 
+The fields are as follows:
+
+* `type` - the type of task to be created. Currently only `helsenorge` is supported.
+* `attributes` - a dictionary of attributes for the task.
+* `created` - the date the task was created.
+* `task_description` - a description of the task.
+* `task_title` - the title of the task.
+* `organization_name` - the name of the organization.
+* `contact_question` - a question to ask the contact person.
+* `organization_phone` - the phone number of the organization.
+* `organization_number` - the organization number. A unique identifier for the organization found on [BREG](https://www.brreg.no/)
+* `days_to_complete` - the number of days the task should be completed in.
+* `sensitive` - a boolean value indicating if the task is sensitive.
+* `code` - a code for the task. The code is one of the values '3' and '5'. The codes are described in the [Helsenorge documentation](https://helsenorge.atlassian.net/wiki/spaces/HELSENORGE/pages/1805680641/Oppgaver+til+innbygger).
+* `intent` - the intent of the task. The intent is one of the values 'proposal' and 'plan'. The intents are described in the [Helsenorge documentation](https://helsenorge.atlassian.net/wiki/spaces/HELSENORGE/pages/1805680641/Oppgaver+til+innbygger).
+* `delivery_form` - the form which will be used to deliver the task pdf.
+* `connected_forms` - a list of forms connected to the task. This list is important only if the delivery form is not the same as the task form.
+
 Once defined, tasks can be created:
+
 ```txt
 PUT /v1/p11/survey/1234/tasks/deliveries
 Authorization: Bearer $survey_import
