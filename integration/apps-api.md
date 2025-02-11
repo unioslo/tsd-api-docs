@@ -31,6 +31,7 @@ The apps API implements a mandatory access control model designed around differe
 | data owners | app-user | OIDC | outside | R, W | R, W, U, D |
 | researchers | app-member | OIDC | inside | R | R |
 | administrators | app-admin | OIDC | outside, inside | R, W, U, D | R, W, U, D |
+| applications | app-generic | OIDC | outside | R, W, U, D | R, W, U, D |
 
 * `R`: read, GET, HEAD
 * `W`: write, PUT, PATCH (for file uploads)
@@ -104,6 +105,30 @@ This returns the full audit log as an array, in no particular order. Like querie
 To delete data records that match a conditional clause:
 ```txt
 DELETE /v1/p11/apps/my-app/tables/my-table?where=data=eq.1
+Authorization: Bearer $token
+```
+
+#### Restoring
+
+Updates and deletes are recorded in automatically managed audit tables. It is possible to restore one or more rows to previous states by using the restore API call:
+
+```txt
+POST /v1/p11/apps/my-app/tables/my-table?restore&primary_key=some_key
+Authorization: Bearer $token
+```
+
+When restoring data, callers must provide the primary key of the data, so that previous states can be mapped to the correct current states of rows. Whatever data is being "addressed" by the restre API call will be restored. This means that the above example will undo all deletes and updates that had been done. If you only want to undo a subset of the updates and deletes, then the caller must provide a `where` filter, such as hypothetically undoing all updates and deletes that happened after a specific date:
+
+```txt
+POST /v1/p11/apps/my-app/tables/my-table?restore&primary_key=some_key&where=timestamp=gte.'2023-12-01'
+Authorization: Bearer $token
+```
+
+#### Renaming
+
+Tables can be renamed as such:
+```txt
+POST /v1/p11/apps/my-app/tables/my-table?alter=name=eq.new_name
 Authorization: Bearer $token
 ```
 
