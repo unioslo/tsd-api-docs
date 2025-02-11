@@ -117,10 +117,10 @@ POST /v1/p11/apps/my-app/tables/my-table?restore&primary_key=some_key
 Authorization: Bearer $token
 ```
 
-When restoring data, callers must provide the primary key of the data, so that previous states can be mapped to the correct current states of rows. Whatever data is being "addressed" by the restre API call will be restored. This means that the above example will undo all deletes and updates that had been done. If you only want to undo a subset of the updates and deletes, then the caller must provide a `where` filter, such as hypothetically undoing all updates and deletes that happened after a specific date:
+When restoring data, callers must provide the primary key of the data, so that previous states can be mapped to the correct current states of rows. Whatever data is being "addressed" by the restore API call will be restored. This means that the above example will undo all deletes and updates that had been done. If you only want to undo a subset of the updates and deletes, then the caller must provide a `where` filter, such as hypothetically undoing all updates and deletes that happened after a specific date:
 
 ```txt
-POST /v1/p11/apps/my-app/tables/my-table?restore&primary_key=some_key&where=timestamp=gte.'2023-12-01'
+POST /v1/p11/apps/my-app/tables/my-table?restore&primary_key=some_key&where=timestamp=gt.'2023-12-01'
 Authorization: Bearer $token
 ```
 
