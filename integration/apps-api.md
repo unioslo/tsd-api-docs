@@ -27,7 +27,7 @@ The apps API implements a mandatory access control model designed around differe
 
 | Role | Access token | Auth method | Host | Access (generic) | Access (personal) |
 | :-: | :-----------: | :---------: | :--: | :--------------: | :--------------: |
-| machines | app-basic | basic | outside | W | - |
+| machines | app-basic | basic | outside | R, W | - |
 | data owners | app-user | OIDC | outside | R, W | R, W, U, D |
 | researchers | app-member | OIDC | inside | R | R |
 | administrators | app-admin | OIDC | outside, inside | R, W, U, D | R, W, U, D |
@@ -44,7 +44,7 @@ With the help of the table one can now elaborate three main use cases.
 
 #### 1. Automated data collection
 
-By using the `app-basic` access token with basic authentication, API clients can collect data from sensors, and send them as either files or JSON to the so-called generic endpoints. Researchers can then access this data from inside their TSD project, and conduct research. Administrators can edit, and delete as necessary.
+By using the `app-basic` access token with basic authentication, API clients can collect data from sensors, and send them as either files or JSON to the so-called generic endpoints. Researchers can then access this data from inside their TSD project, and conduct research. Administrators can edit, and delete as necessary. Applications can also choose to edit data with machine-to-machine authentication. In that case they need to accept the relevant risks and handle authentication and session management accordingly in their own applications.
 
 #### 2.  Authenticated data collection (generic)
 
