@@ -1,0 +1,1916 @@
+openapi: "3.0.2"
+info:
+  title: TSD API
+  version: "1.0"
+servers:
+  - url: https://api.tsd.usit.no
+components:
+  schemas:    
+    consentQuestion:
+      description: Consent question
+      type: object
+      properties:
+        attribute_name: 
+          type: string
+        granted_value: 
+          type: string
+        description: 
+          type: string
+    consentIngestion:
+      description: Consent data ingestion
+      type: object
+      properties:
+        id: 
+          type: string
+        delivered_on: 
+          type: string
+        source: 
+          type: string      
+        data:
+          type: object    
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic
+      description: Set username as client_id, password as client_secret
+paths:
+  /v1/{projectId}/auth/clients/secret:
+    post:
+      summary: Renew the client secret
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)
+      tags:
+        - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string 
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/auth/tokens/info:
+    get:
+      summary: Retrieve access tokens
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)      
+      tags:
+        - authentication      
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error      
+  /v1/{projectId}/auth/refresh/token:
+    post:
+      summary: Refresh access token
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)      
+      tags:
+        - authentication      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/auth/basic/token:
+    post:
+      summary: Basic authentication
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)      
+      security:
+        - bearerAuth: []
+      tags:
+        - direct access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/all/auth/instances/token:
+    post:
+      summary: Instance based authentication
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - direct access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/auth/tsd/token:
+    post:
+      summary: TSD Two-Factor authentication
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)           
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - direct access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                password:
+                  type: string
+                otp:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/auth/tsdoidc/token:
+    post:
+      summary: TSD OIDC access token
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)           
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - indirect access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idtoken:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error        
+  /v1/{projectId}/auth/difi/token:
+    post:
+      summary: ID-porten authentication access token
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)           
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - indirect access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idtoken:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error              
+  /v1/{projectId}/auth/dataporten/token:
+    post:
+      summary: Dataporten authentication access token
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)           
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - indirect access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idtoken:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/auth/enrich/token:
+    post:
+      summary: Token Enrichment
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)           
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Token type
+      security:
+        - bearerAuth: []
+      tags:
+        - indirect access
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - "idtoken"
+              properties:
+                idtoken:
+                  type: string
+                merge_with:
+                  type: string
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /.well-known/openid-configuration:
+    get:
+      summary: OpenID configuration
+      servers:
+      - url: https://oidc.tsd.usit.no/tsd-oidc-provider/
+        description: Production OIDC API
+      - url: https://test.api.tsd.usit.no/tsd-oidc-provider/
+        description: Test OIDC API        
+      tags:
+        - tsd oidc
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error    
+  /authorize:
+    get:
+      summary: Authorize step
+      servers:
+      - url: https://oidc.tsd.usit.no/tsd-oidc-provider/
+        description: Production OIDC API
+      - url: https://test.api.tsd.usit.no/tsd-oidc-provider/
+        description: Test OIDC API      
+      parameters:
+        - in: query
+          name: response_type
+          schema:
+            type: string
+          required: true
+          description: value code
+        - in: query
+          name: scope
+          schema:
+            type: string
+          required: true
+          description: url encoded space separated list
+        - in: query
+          name: client_id
+          schema:
+            type: string
+          required: true
+          description:  client identifier    
+        - in: query
+          name: redirect_uri
+          schema:
+            type: string
+          required: true
+          description: registered redirect URI
+        - in: query
+          name: nonce
+          schema:
+            type: string
+          required: true
+          description: random session value generated by client
+        - in: query
+          name: state
+          schema:
+            type: string
+          required: true
+          description: random session value generated by client                     
+        - in: query
+          name: code_challenge
+          schema:
+            type: string
+          required: false
+          description: mandatory for PKCE, SHA-256 digest of random value generated by client
+        - in: query
+          name: code_challenge_method
+          schema:
+            type: string
+          required: false
+          description: mandatory for PKCE, value S256
+        - in: query
+          name: acr_values
+          schema:
+            type: string
+          required: false
+          description: url encoded space separated list, ordered in preference
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: false
+          description: used in combination with id_token_hint when prompt=none to perform SSO
+        - in: query
+          name: max_age
+          schema:
+            type: string
+          required: false
+          description: use in combination with prompt specifying the maximum amount of minutes which may have elapsed since the previous authentication, TSD enforces a maximum of two hours, clients can choose smaler values
+        - in: query
+          name: id_token_hint
+          schema:
+            type: string
+          required: false
+          description: the ID token itself, compulsory to include when doing SSO with prompt
+      tags:
+        - tsd oidc
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                                 
+  /token:
+    post:
+      summary: Retrieve access token from TSD OIDC provider
+      servers:
+      - url: https://oidc.tsd.usit.no/tsd-oidc-provider/
+        description: Production OIDC API
+      - url: https://test.api.tsd.usit.no/tsd-oidc-provider/
+        description: Test OIDC API     
+      security:
+        - {}
+        - basicAuth: []             
+      tags:
+        - tsd oidc
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - "grant_type"
+                - "code"
+                - "redirect_uri"
+                - "nonce"
+              properties:
+                grant_type:
+                  type: string                  
+                code:
+                  type: string
+                redirect_uri:
+                  type: string
+                nonce:
+                  type: string   
+                code_verifier:
+                  type: string                                                      
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error          
+  /userinfo:
+    get:
+      summary: Get additional information about authenticated users
+      servers:
+      - url: https://oidc.tsd.usit.no/tsd-oidc-provider/
+        description: Production OIDC API
+      - url: https://test.api.tsd.usit.no/tsd-oidc-provider/
+        description: Test OIDC API     
+      security:
+        - bearerAuth: []        
+      tags:
+        - tsd oidc                                            
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error           
+  /end_session:
+    get:
+      summary: Get additional information about authenticated users
+      servers:
+      - url: https://oidc.tsd.usit.no/tsd-oidc-provider/
+        description: Production OIDC API
+      - url: https://test.api.tsd.usit.no/tsd-oidc-provider/
+        description: Test OIDC API     
+      tags:
+        - tsd oidc
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - "id_token_hint"
+                - "post_logout_redirect_uri"
+              properties:
+                id_token_hint:
+                  type: string                  
+                post_logout_redirect_uri:
+                  type: string
+                state:
+                  type: string                                                 
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error  
+  /v1/{projectId}/files/stream/{filepath}:
+    head:
+      summary: Check if a file exists, and get some metadata
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)   
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File name
+      security:
+        - bearerAuth: []                     
+      tags:
+        - file import and export      
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error    
+    put:
+      summary: Simple file upload
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)   
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File name       
+        - in: query
+          name: group
+          schema:
+            type: string
+          required: true
+          description: File group name
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []        
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary                                   
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+    get:
+      summary: List the import directory within subpath
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path            
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                             
+    patch:
+      summary: Initiate or resume a new resumable upload
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+        - in: query
+          name: chunk
+          schema:
+            type: string
+          required: true
+          description: Chunk number
+        - in: query
+          name: group
+          schema:
+            type: string
+          required: true
+          description: Group name 
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: Generated UUID when resuming the upload                                   
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error          
+  /v1/{projectId}/files/stream:
+    get:
+      summary: List the import directory
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/{projectId}/files/export:
+    get:
+      summary: List the export directory
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)         
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error    
+  /v1/{projectId}/files/export/{filepath}:
+    head:
+      summary: Check if a file exists, and get some metadata
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path                   
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error             
+    get:
+      summary: Download a file from a directory in the export folder
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path                   
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/files/resumables:
+    get:
+      summary: List all resumables for the authenticated user
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/files/resumables/{filepath}:
+    delete:
+      summary: Cancel the resumable upload
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path        
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Generated resumable upload UUID                   
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error             
+    get:
+      summary: List all resumables for the authenticated user
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path        
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: Generated resumable upload UUID 
+        - in: query
+          name: key
+          schema:
+            type: string
+          required: false
+          description: Directory name                    
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error 
+  /v1/{projectId}/logs/files_export:
+    get:
+      summary: Get request logs
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                  
+      tags:
+        - file import and export
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/consent/internal:
+    post:
+      summary: Register consent
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                  
+      tags:
+        - consent api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                form_id:
+                  type: string
+                title:
+                  type: string    
+                description:
+                  type: string    
+                consenter_id_attribute:
+                  type: string         
+                minor_id_attribute:
+                  type: string      
+                reference_attributes:
+                  type: array       
+                  items:
+                    type: string                  
+                questions:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/consentQuestion"   
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/{projectId}/consent/internal/{consentId}:
+    delete:
+      summary: Delete registered consent form
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)  
+        - in: path
+          name: consentId
+          schema:
+            type: string
+          required: true
+          description: Consent form id                           
+      tags:
+        - consent api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error     
+    post:
+      summary: Ingest data to consent form
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: consentId
+          schema:
+            type: string
+          required: true
+          description: Consent form id                               
+      tags:
+        - consent api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consents:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/consentIngestion"     
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+  /v1/{projectId}/consent/internal/{consentId}/query:                                                                                                                           
+    post:
+      summary: Query the consent API
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing) 
+        - in: path
+          name: consentId
+          schema:
+            type: string
+          required: true
+          description: Consent form id                               
+      tags:
+        - consent api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    consenter_id: 
+                      type: string
+                    minor_id: 
+                      type: string
+                    reference_attributes: 
+                      type: object    
+                    questions:
+                      type: object
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/{projectId}/consent/external:                                                                                                                           
+    get:
+      summary: Query the consent consult
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+      tags:
+        - consent api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error            
+  /v1/{projectId}/apps/{applicationName}/tables/{tableName}:                                                                                                                           
+    put:
+      summary: Send JSON data
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: tableName
+          schema:
+            type: string
+          required: true
+          description: Table name
+      tags:
+        - apps api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object  
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error        
+    get:
+      summary: Get data from the table
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: tableName
+          schema:
+            type: string
+          required: true
+          description: Table name
+        - in: query
+          name: select
+          schema:
+            type: string
+          required: false               
+        - in: query
+          name: where
+          schema:
+            type: string
+          required: false             
+        - in: query
+          name: order
+          schema:
+            type: string
+          required: false        
+        - in: query
+          name: range
+          schema:
+            type: string
+          required: false               
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error 
+    patch:
+      summary: Update data in the table
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: tableName
+          schema:
+            type: string
+          required: true
+          description: Table name
+        - in: query
+          name: set
+          schema:
+            type: string
+          required: true          
+        - in: query
+          name: where
+          schema:
+            type: string
+          required: true   
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object            
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error
+    delete:
+      summary: Delete data in the table
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: tableName
+          schema:
+            type: string
+          required: true
+          description: Table name     
+        - in: query
+          name: where
+          schema:
+            type: string
+          required: true       
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error          
+  /v1/{projectId}/apps/{applicationName}/tables/{tableName}/audit:                                                                                                                           
+    get:
+      summary: Get audit log for particular table
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: tableName
+          schema:
+            type: string
+          required: true
+          description: Table name
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/{projectId}/apps/{applicationName}/files:
+    get:
+      summary: List files
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name   
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error            
+  /v1/{projectId}/apps/{applicationName}/files/{filepath}:
+    get:
+      summary: Get a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path   
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error      
+    delete:
+      summary: Delete a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path 
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: UUID of the upload session if resumable           
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error  
+    patch:
+      summary: Start resumable upload
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+        - in: query
+          name: chunk
+          schema:
+            type: string
+          required: true
+          description: Chunk id    
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: UUID identifying the session
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary      
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                                                                                                                               
+    put:
+      summary: Upload a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name  
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary      
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error       
+  /v1/{projectId}/apps/{applicationName}/files/resumables:
+    get:
+      summary: List resumable uploads
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: applicationName
+          schema:
+            type: string
+          required: true
+          description: Application name   
+      tags:
+        - apps api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/{projectId}/survey/{surveyId}/activated:
+    put:
+      summary: Activate survey
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id   
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error        
+    delete:
+      summary: Deactivate survey
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id   
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                                                                                            
+  /v1/{projectId}/survey/{surveyId}/status:
+    get:
+      summary: Get survey status
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id   
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error    
+  /v1/{projectId}/survey/{surveyId}/audit:                                                                                                                           
+    get:
+      summary: Get audit log for survey
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id 
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error              
+  /v1/{projectId}/survey/{surveyId}/attachments:
+    get:
+      summary: List files
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error            
+  /v1/{projectId}/apps/{surveyId}/attachments/{filepath}:
+    get:
+      summary: Get a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id  
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path   
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error      
+    delete:
+      summary: Delete a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id 
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: UUID of the upload session if resumable           
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error  
+    patch:
+      summary: Start resumable upload
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+        - in: query
+          name: chunk
+          schema:
+            type: string
+          required: true
+          description: Chunk id    
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: false
+          description: UUID identifying the session
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary      
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                                                                                                                               
+    put:
+      summary: Upload a file
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id 
+        - in: path
+          name: filepath
+          schema:
+            type: string
+          required: true
+          description: File path
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary      
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error       
+  /v1/{projectId}/survey/{surveyId}/attachments/resumables:
+    get:
+      summary: List resumable uploads
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                           
+        - in: path
+          name: surveyId
+          schema:
+            type: string
+          required: true
+          description: Survey id    
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error  
+  /v1/{projectId}/survey/crypto/key:
+    get:
+      summary: Get the APIs public key, along with an overview of the encryption parameters
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: Project id (use p11 for testing)                              
+      tags:
+        - survey api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error            
+  /v1/all/publication/discovery/persons/{personId}:
+    get:
+      summary: Get information about a persons direct resources, and group-based resources
+      parameters:
+        - in: path
+          name: personId
+          schema:
+            type: string
+          required: true
+          description: pid claim in the access token                          
+      tags:
+        - publication api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error   
+  /v1/all/publication/discovery/groups/{groupName}:
+    get:
+      summary: Get resource group information
+      parameters:
+        - in: path
+          name: groupName
+          schema:
+            type: string
+          required: true
+          description: Group name                         
+      tags:
+        - publication api
+      security:
+        - bearerAuth: []                             
+      responses:
+        "200":
+          description: OK
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Unexpected error                                        
+tags:
+  - name: authentication
+    description: Authentication related requests
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Authentication_and_authorization
+  - name: direct access
+    description: Direct access token requests
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Direct_access_token_requests
+  - name: indirect access
+    description: Indirect access token requests
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Indirect_access_token_requests
+  - name: tsd oidc
+    description: TSD OIDC
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#TSD_OIDC6
+  - name: file import and export
+    description: File import and export
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#File_import_and_export
+  - name: consent api
+    description: Consent API
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Consent_API
+  - name: apps api
+    description: Apps API
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Apps_API
+  - name: survey api
+    description: Survey API
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Survey_API
+  - name: publication api
+    description: Publication API
+    externalDocs:
+      url: https://data.tsd.usit.no/api/tsd-api-integration.html#Publication_API
